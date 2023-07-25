@@ -14,6 +14,8 @@ export default function ResetPassword() {
 
   const handleResetPassword = async (e) => {
     e.preventDefault();
+    const url = getURL("/update-password");
+    console.log(url);
     await supabase.auth.resetPasswordForEmail(email, {
       redirectTo: getURL("/update-password"),
     });
