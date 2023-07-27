@@ -1,3 +1,65 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 300 100% 90%;
+    --btn-background: 300 90% 87%;
+    --btn-background-hover: 300 90% 82%;
+    --foreground: 300 100% 40%;
+  }
+
+  /* from colormind.io/bootstrap */
+  :root{
+    /* theme colors */
+    --light-shades: #e8e3e5;
+    --light-shades-lighter: #ffffff;
+    --light-shades-darker: #d1c7cb;
+
+    --dark-shades: #171a1c;
+    --dark-shades-lighter: #373e43;
+    --dark-shades-darker: #090a0b;
+
+    --main-brand: #64af9f;
+    --main-brand-lighter: #80beb0;
+    --main-brand-darker: #4e9b87;
+
+    --light-accent: #52668c;
+    --light-accent-lighter: #7286ac;
+    --light-accent-darker: #3c4b67;
+
+    --dark-accent: #5b4532;
+    --dark-accent-lighter: #846448;
+    --dark-accent-darker: #35281d;
+
+    /* button colors */
+    --primary: #ECE8E4;
+    --primary-lighter: #ffffff;
+    --primary-darker:#D5CBC3;
+
+    --info: #211C20;
+    --info-lighter: #413940;
+    --info-darker: #161316;
+
+    --success: #539f5b;
+    --success-lighter: #79b980;
+    --success-darker: #3f7845;
+
+    --warning: #d18f23;
+    --warning-lighter: #E1AA51;
+    --warning-darker: #9D6B1B;
+
+    --danger: #f44336;
+    --danger-lighter: #F88077;
+    --danger-darker: #E91B0C;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --background: 300 100% 8%;
+      --btn-background: 300 60% 8%;
+      --btn-background-hover: 300 60% 6%;
+      --foreground: 300 100% 90%;
+    }
+  }
+}

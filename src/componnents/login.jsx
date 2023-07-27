@@ -3,6 +3,10 @@
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Button from "@/UI/button";
+import Form from "@/UI/form";
+import FormInput from "@/UI/input";
+import Message from "@/UI/message";
 
 export default function Login() {
   const [password, setPassword] = useState("");
@@ -30,16 +34,32 @@ export default function Login() {
     router.push(`/login/reset?${params}`);
   };
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="email">email</label>
-        <input name="email" onChange={(e) => setEmail(e.target.value)} />
-        <label htmlFor="password">password</label>
-        <input name="password" onChange={(e) => setPassword(e.target.value)} />
-        <button>login</button>
-        {loginError ? <p>{loginError}</p> : null}
-      </form>
-      <a onClick={handleResetPassword}>reset password</a>
+    <div className="space-y-4">
+      <Form submitAction={handleSubmit}>
+        <FormInput
+          info={{
+            label: "Email",
+            name: "email",
+            changeAction: setEmail,
+            defaultValue: "",
+            type: "text",
+          }}
+        />
+        <FormInput
+          info={{
+            label: "Password",
+            name: "password",
+            changeAction: setPassword,
+            defaultValue: "",
+            type: "text",
+          }}
+        />
+        <Button>login</Button>
+        {loginError ? <Message type="error">{loginError}</Message> : null}
+      </Form>
+      <div className="flex flex-col items-center">
+        <Button action={handleResetPassword}>reset password</Button>
+      </div>
     </div>
   );
 }

@@ -39,9 +39,11 @@ export default function HomeClient() {
       {loading ? (
         <Loading />
       ) : (
-        <div>
+        <div className="flex flex-col items-center gap-1">
           Welcome, {user.email}
-          <Logout setUser={setUser}/>
+          <div>
+            <Logout setUser={setUser} />
+          </div>
         </div>
       )}
     </div>
