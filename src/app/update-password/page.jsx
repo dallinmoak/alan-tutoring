@@ -39,7 +39,7 @@ export default function UpdatePassword() {
             name: "newpassword",
             changeAction: setNewPassword,
             defaultValue: "",
-            type: "text",
+            type: "password",
           }}
         />
         <Button>set new password</Button>

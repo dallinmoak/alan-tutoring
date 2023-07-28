@@ -51,7 +51,7 @@ export default function Login() {
             name: "password",
             changeAction: setPassword,
             defaultValue: "",
-            type: "text",
+            type: "password",
           }}
         />
         <Button>login</Button>
