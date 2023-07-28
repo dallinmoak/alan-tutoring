@@ -1,0 +1,28 @@
+export default function TwRender() {
+  return (
+    <>
+      {/* @UI/form form */}
+      <div className="flex flex-col gap-4 max-w-lg mx-auto" />
+      
+      {/* @app/login/reset/page message wrapper */}
+      {/* @app/update-password/page message home link wrapper */}
+      {/* @components/login reset link wrapper */}
+      <div className="flex flex-col items-center" />
+
+      {/* @components/home-client main content wrapper */}
+      <div className="flex flex-col items-center gap-1" />
+
+      {/* @components/header header wrapper */}
+      <div className="w-full h-14 bg-main-brand- dark:bg-main-brand-darker flex flex-row justify-center items-center border-b-2 border-b-dark-shades- dark:border-b-light-shades-darker" />
+      {/* @components/header header text */}
+      <div className="text-dark-shades- font-black text-3xl" />
+
+      {/* @UI/input input wrapper */}
+      <div className="[&>input]:bg-light-shades- [&>input]:dark:bg-dark-shades- focus-visible:[&>input]:bg-light-shades-darker focus-visible:[&>input]:dark:bg-dark-shades-lighter border-b border-b-dark-shades- dark:border-b-light-shades- grid grid-cols-[11fr_1fr] grid-rows-1" />
+      {/* @UI/input input */}
+      <div className="focus-visible:outline-none p-1 w-full col-start-1 col-span-2 row-start-1" />
+      {/* @UI/input toggle show */}
+      <div className="[&>svg]:h-5 [&>svg]:pe-1 col-start-2 row-start-1 flex justify-end items-center text-dark-shades- dark:text-light-shades- fill-current" />
+    </>
+  );
+}
