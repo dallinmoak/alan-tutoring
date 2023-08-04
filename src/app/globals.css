@@ -25,13 +25,21 @@
     --main-brand-lighter: #80beb0;
     --main-brand-darker: #4e9b87;
 
-    --light-accent: #52668c;
+    /* --light-accent: #52668c;
     --light-accent-lighter: #7286ac;
-    --light-accent-darker: #3c4b67;
+    --light-accent-darker: #3c4b67; */
 
-    --dark-accent: #5b4532;
+    --light-accent: #676e79;
+    --light-accent-lighter: #868c98;
+    --light-accent-darker: #4b5058;
+
+    /* --dark-accent: #5b4532;
     --dark-accent-lighter: #846448;
-    --dark-accent-darker: #35281d;
+    --dark-accent-darker: #35281d; */
+
+    --dark-accent: #4c4743;
+    --dark-accent-lighter: #6e665e;
+    --dark-accent-darker: #2c2826;
 
     /* button colors */
     --primary: #ECE8E4;

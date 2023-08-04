@@ -6,6 +6,8 @@ import { useEffect, useState } from "react";
 
 import Loading from "@/app/loading";
 import Logout from "./logout";
+import TeacherDash from "./dashboard/teacher";
+import ClientDash from "./dashboard/client";
 
 export default function HomeClient() {
   const supabase = createClientComponentClient();
@@ -20,7 +22,12 @@ export default function HomeClient() {
     if (!user) {
       sendToLogin(router);
     } else {
-      setUser(user);
+      // #TODO get user application role from role table here
+      if(true){
+        setUser({...user, appRole: "teacher"});
+      } else {
+        setUser(user);
+      }
       setLoading(false);
     }
   };
@@ -40,7 +47,7 @@ export default function HomeClient() {
         <Loading />
       ) : (
         <div className="flex flex-col items-center gap-1">
-          Welcome, {user.email}
+          {user.appRole== "teacher" ? <TeacherDash user={user} /> : <ClientDash />}
           <div>
             <Logout setUser={setUser} />
           </div>
