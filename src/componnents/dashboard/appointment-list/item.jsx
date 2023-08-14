@@ -3,24 +3,23 @@
 import Button from "@/UI/button";
 import Card from "@/UI/card";
 
-import { getClientbyID } from "@/utils/simClients";
-
 export default function AppointmentListItem({ appointment }) {
   const {
-    startDateTime,
-    endDateTime,
-    title,
-    description,
+    id,
+    teacher_id,
+    start,
+    end,
     type,
     location,
-    clientId,
-    googleId,
+    client_id,
+    google_id,
+    f_name,
+    l_name,
+    subject,
   } = { ...appointment };
 
-  const client = getClientbyID(clientId);
-
-  function intervalInMinutes(start, end) {
-    return Math.round((end - start) / 1000 / 60);
+  function intervalInMinutes(istart, iend) {
+    return Math.round((iend - istart) / 1000 / 60);
   }
 
   const timeFormat = {
@@ -31,7 +30,7 @@ export default function AppointmentListItem({ appointment }) {
     <>
       {/* meeting duration */}
       <div>
-        Duration: {intervalInMinutes(startDateTime, endDateTime)} minutes
+        Duration: {intervalInMinutes(start, end)} minutes
       </div>
       {/* Meeting link */}
       {type == "online" ? (
@@ -46,15 +45,17 @@ export default function AppointmentListItem({ appointment }) {
     <Card type="inv">
       <div className="flex justify-between text-xl">
         <div>
-          {new Intl.DateTimeFormat("default").format(startDateTime)}
+          {new Intl.DateTimeFormat("default").format(start)}
         </div>
         <div>
-          {new Intl.DateTimeFormat("default", timeFormat).format(startDateTime)}
+          {new Intl.DateTimeFormat("default", timeFormat).format(start)}
         </div>
       </div>
       <div>Type: {type}</div>
       {type == "in-person" ? <div>location: {location}</div> : null}
-      <div>Client: {`${client.fName} ${client.lName}`}</div>
+      <div>Client: {`${f_name} ${l_name}`}</div>
+      {/* <div>teacher_id: {teacher_id}</div> */}
+      {/* <div>id: {id}</div> */}
     </Card>
   );
 }

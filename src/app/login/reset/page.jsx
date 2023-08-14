@@ -22,8 +22,11 @@ export default function ResetPassword() {
       redirectTo: getURL("/update-password"),
     };
     console.log("reset options", options);
-    await supabase.auth.resetPasswordForEmail(email, options);
-    setMessage(`check the inbox of ${email} for a password reset link`);
+    supabase.auth.resetPasswordForEmail(email, options)
+      .then(()=>{
+        setMessage(`check the inbox of ${email} for a password reset link`)
+      });
+    ;
   };
 
   useEffect(() => {

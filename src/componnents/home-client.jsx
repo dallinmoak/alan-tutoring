@@ -1,6 +1,5 @@
 "use client";
 
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -8,28 +7,25 @@ import Loading from "@/app/loading";
 import Logout from "./logout";
 import TeacherDash from "./dashboard/teacher";
 import ClientDash from "./dashboard/client";
+import getUserWithRole from "@/utils/getUserWithRole";
 
 export default function HomeClient() {
-  const supabase = createClientComponentClient();
   const sendToLogin = (router) => {
     router.push("/login");
   };
 
   const checkUser = async (router) => {
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
-    if (!user) {
-      sendToLogin(router);
-    } else {
-      // #TODO get user application role from role table here
-      if(true){
-        setUser({...user, appRole: "teacher"});
-      } else {
-        setUser(user);
-      }
-      setLoading(false);
-    }
+    getUserWithRole()
+      .then((res) => {
+        setUser(res);
+      })
+      .catch((e) => {
+        console.log(e);
+        sendToLogin(router);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   const [user, setUser] = useState({});
@@ -37,9 +33,13 @@ export default function HomeClient() {
 
   const router = useRouter();
   useEffect(() => {
-    setLoading(true);
     checkUser(router);
   }, []);
+
+  const displayDashboards = {
+    teacher: <TeacherDash user={user} />,
+    client: <ClientDash user={user}/>,
+  };
 
   return (
     <div>
@@ -47,7 +47,7 @@ export default function HomeClient() {
         <Loading />
       ) : (
         <div className="flex flex-col items-center gap-1">
-          {user.appRole== "teacher" ? <TeacherDash user={user} /> : <ClientDash />}
+          {displayDashboards[user.appRole]}
           <div>
             <Logout setUser={setUser} />
           </div>

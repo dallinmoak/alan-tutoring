@@ -9,9 +9,12 @@ export default function Logout({ setUser }) {
   const router = useRouter();
 
   const logout = async () => {
-    const logoutAttepmt = await supabase.auth.signOut();
-    setUser({});
-    router.push("/login");
+    supabase.auth.signOut()
+      .then(()=>{
+        setUser({});
+        router.push("/login");
+      })
+      .catch(e=>console.log(e));
   };
 
   return (
