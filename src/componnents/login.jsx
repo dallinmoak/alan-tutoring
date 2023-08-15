@@ -7,6 +7,7 @@ import Button from "@/UI/button";
 import Form from "@/UI/form";
 import FormInput from "@/UI/input";
 import Message from "@/UI/message";
+import signInPassword from "@/utils/signInPassword";
 
 export default function Login() {
   const [password, setPassword] = useState("");
@@ -19,15 +20,13 @@ export default function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    let signInAttempt = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
-    if (signInAttempt.error) {
-      setLoginError("sign in attempt error");
-    } else {
-      router.push("/");
-    }
+    signInPassword({email: email, password: password})
+      .then(()=>{
+        router.push('/');
+      })
+      .catch(e=>{
+        setLoginError(`sign in error: ${JSON.stringify(e)}`);
+      })
   };
   const handleResetPassword = () => {
     const params = new URLSearchParams({ email: email }).toString();

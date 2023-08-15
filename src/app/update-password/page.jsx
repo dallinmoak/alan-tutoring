@@ -6,6 +6,7 @@ import Button from "@/UI/button";
 import Form from "@/UI/form";
 import FormInput from "@/UI/input";
 import Message from "@/UI/message";
+import updateUserPasswword from "@/utils/updateUserPassword";
 
 export default function UpdatePassword() {
   const [newPassword, setNewPassword] = useState("");
@@ -15,19 +16,21 @@ export default function UpdatePassword() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (newPassword) {
-      const { data, error } = await supabase.auth.updateUser({
-        password: newPassword,
-      });
-      console.log(data, error);
-      if (data) {
-        setMessage({
-          type: "success",
-          content: "Password Updated. You are now signed in",
-        });
-      }
-      if (error) {
-        setMessage({ type: "error", content: "there was an error" });
-      }
+      updateUserPasswword(newPassword)
+        .then((res)=>{
+          console.log(res);
+          setMessage({
+            type: "success",
+            content: "Password Updated. You are now signed in",
+          })
+        })
+        .catch((e)=>{
+          console.log(e);
+          setMessage({
+            type: "error",
+            content: `update error: ${JSON.stringify(e)}`
+          })
+        })
     }
   };
   return (

@@ -23,6 +23,12 @@ export default function TwRender() {
       <div className="focus-visible:outline-none p-1 w-full col-start-1 col-span-2 row-start-1" />
       {/* @UI/input toggle show */}
       <div className="[&>svg]:h-5 [&>svg]:pe-1 col-start-2 row-start-1 flex justify-end items-center text-dark-shades- dark:text-light-shades- fill-current" />
+
+      {/* @/components/dashboard/appointment-list/list list wrapper */}
+      <div className="p-2 space-y-1" />
+
+      {/* @/components/dashboard/appointment-list/item upper */}
+      <div className="flex justify-between text-xl" />
     </>
   );
 }
