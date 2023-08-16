@@ -7,6 +7,7 @@ import Form from "@/UI/form";
 import FormInput from "@/UI/input";
 import Message from "@/UI/message";
 import updateUserPasswword from "@/utils/updateUserPassword";
+import { translations } from "@/utils/translations";
 
 export default function UpdatePassword() {
   const [newPassword, setNewPassword] = useState("");
@@ -21,14 +22,14 @@ export default function UpdatePassword() {
           console.log(res);
           setMessage({
             type: "success",
-            content: "Password Updated. You are now signed in",
+            content: translations.messages.updatePasswordSuccess,
           })
         })
         .catch((e)=>{
           console.log(e);
           setMessage({
             type: "error",
-            content: `update error: ${JSON.stringify(e)}`
+            content: translations.messages.updatePasswordFailure(JSON.stringify(e))
           })
         })
     }
@@ -38,21 +39,21 @@ export default function UpdatePassword() {
       <Form submitAction={handleSubmit}>
         <FormInput
           info={{
-            label: "New Password",
+            label: translations.fieldLabels.newPassword,
             name: "newpassword",
             changeAction: setNewPassword,
             defaultValue: "",
             type: "password",
           }}
         />
-        <Button>set new password</Button>
+        <Button>{translations.buttonlabels.setNewPassword}</Button>
       </Form>
       <div className="flex flex-col items-center">
         {message ? (
           <>
             <Message type={message.type}>{message.content}</Message>
             <Button>
-              <Link href="/">Home</Link>
+              <Link href="/">{translations.buttonlabels.home}</Link>
             </Button>
           </>
         ) : null}

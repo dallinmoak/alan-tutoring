@@ -5,12 +5,12 @@ import Heading from "@/UI/heading";
 import { useEffect, useState } from "react";
 import Loading from "@/app/loading";
 import getUpcomingAppointments from "@/utils/getUpcomingAppointments";
+import { translations } from "@/utils/translations";
 
 export default function AppointmentList() {
   const [loading, setLoading] = useState(true);
   const [apList, setApList] = useState([]);
 
-  
   useEffect(() => {
     const fetchAppts = async () => {
       getUpcomingAppointments()
@@ -29,7 +29,7 @@ export default function AppointmentList() {
 
   return (
     <>
-      <Heading size="md">Upcoming Appointments</Heading>
+      <Heading size="md">{translations.upcommingAppointmentsHeading}</Heading>
       <div className="p-2 space-y-1">
         <>
           {loading ? (
