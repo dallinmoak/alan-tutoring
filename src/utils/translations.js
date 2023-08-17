@@ -1,10 +1,10 @@
 export const translations = {
   applicationTitle: "Servicio de Tutorías Alan", //confirmed
-  teacherDashboardTitle: "Panel de Tutor | {firstName}", //!
+  teacherDashboardTitle: (name) => `Panel de Tutor | ${name}`, //!
   teacherDashboardHeading: "Panel de Tutor", //!
   teacherDashboardGreeting: (email) => `Bienvenido, ${email}`, //!
   upcommingAppointmentsHeading: "Próximas Citas", //!
-  clientDashboardTitle: "Panel de Cliente | {firstName}", //!
+  clientDashboardTitle: (name) => `Panel de Cliente | ${name}`, //!
   clientDashboardHeading: "Panel de Cliente", //!
   clientDashboardGreeting: (email) => `Bienvenido, ${email}`, //!
   fieldLabels: {
