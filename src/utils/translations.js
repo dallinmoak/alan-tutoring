@@ -7,6 +7,7 @@ export const translations = {
   clientDashboardTitle: (name) => `Panel de Cliente | ${name}`, //!
   clientDashboardHeading: "Panel de Cliente", //!
   clientDashboardGreeting: (email) => `Bienvenido, ${email}`, //!
+  loadingMsg: "Cargando",
   fieldLabels: {
     email: "Correo electrónico", //!
     password: "Contraseña", //!

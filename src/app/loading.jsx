@@ -1,7 +1,9 @@
+import { translations } from "@/utils/translations";
+
 export default function Loading(){
   return(
     <div>
-      loading...
+      {translations.loadingMsg}...
     </div>
   )
 }
