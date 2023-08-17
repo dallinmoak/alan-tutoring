@@ -52,8 +52,8 @@ export default function AppointmentListItem({ appointment }) {
           {new Intl.DateTimeFormat("default", timeFormat).format(start)}
         </div>
       </div>
-      <div>{`${translations.fieldLabels.appointmentType}: ${type}`}</div>
-      {type == "in-person" ? <div>location: {location}</div> : null}
+      <div>{`${translations.fieldLabels.appointmentType}: ${translations.fieldValues.appointmentType[type]}`}</div>
+      {type == "in-person" ? <div>{`${translations.fieldLabels.appointmentLocation}: ${location}`}</div> : null}
       <div>{`${translations.fieldLabels.appointmentClient}: ${f_name} ${l_name}`}</div>
       {/* <div>teacher_id: {teacher_id}</div> */}
       {/* <div>id: {id}</div> */}

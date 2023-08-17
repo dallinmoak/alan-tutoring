@@ -11,7 +11,7 @@ export default function TeacherDash({ user }) {
   }, []);
   return (
     <div className="w-full max-w-lg">
-      <Heading size="lg">Teacher Dashboard</Heading>
+      <Heading size="lg">{translations.teacherDashboardHeading}</Heading>
       <div className="flex justify-center">
         <div>{translations.teacherDashboardGreeting(user.email)}</div>
       </div>
