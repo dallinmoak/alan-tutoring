@@ -8,6 +8,8 @@ import Button from "@/UI/button";
 import Form from "@/UI/form";
 import FormInput from "@/UI/input";
 import Message from "@/UI/message";
+import { translations } from "@/utils/translations";
+import Heading from "@/UI/heading";
 
 export default function ResetPassword() {
   const [email, setEmail] = useState("");
@@ -24,7 +26,7 @@ export default function ResetPassword() {
     console.log("reset options", options);
     supabase.auth.resetPasswordForEmail(email, options)
       .then(()=>{
-        setMessage(`check the inbox of ${email} for a password reset link`)
+        setMessage(translations.messages.resetPasswordSuccess(email))
       });
     ;
   };
@@ -35,17 +37,18 @@ export default function ResetPassword() {
 
   return (
     <>
+    <Heading size='sm'>{translations.buttonlabels.resetPassword}</Heading>
       <Form submitAction={handleResetPassword}>
         <FormInput
           info={{
-            label: "Email",
+            label: translations.fieldLabels.email,
             name: "email",
             changeAction: setEmail,
             defaultValue: email,
             type: "text",
           }}
         />
-        <Button>reset password</Button>
+        <Button>{translations.buttonlabels.sendPasswordResetRequest}</Button>
       </Form>
       <div className="flex flex-col items-center">
         {message ? <Message type="success">{message}</Message> : null}

@@ -2,6 +2,7 @@
 
 import Button from "@/UI/button";
 import Card from "@/UI/card";
+import { translations } from "@/utils/translations";
 
 export default function AppointmentListItem({ appointment }) {
   const {
@@ -51,9 +52,9 @@ export default function AppointmentListItem({ appointment }) {
           {new Intl.DateTimeFormat("default", timeFormat).format(start)}
         </div>
       </div>
-      <div>Type: {type}</div>
-      {type == "in-person" ? <div>location: {location}</div> : null}
-      <div>Client: {`${f_name} ${l_name}`}</div>
+      <div>{`${translations.fieldLabels.appointmentType}: ${translations.fieldValues.appointmentType[type]}`}</div>
+      {type == "in-person" ? <div>{`${translations.fieldLabels.appointmentLocation}: ${location}`}</div> : null}
+      <div>{`${translations.fieldLabels.appointmentClient}: ${f_name} ${l_name}`}</div>
       {/* <div>teacher_id: {teacher_id}</div> */}
       {/* <div>id: {id}</div> */}
     </Card>

@@ -1,12 +1,13 @@
 import Header from "@/componnents/header";
 import "./globals.css";
 import { Inter } from "next/font/google";
+import { translations } from "@/utils/translations";
 
 const myFont = Inter({ subsets: ["latin"] });
 
 export const metadata = {
-  title: "Alan Tutoring Appointment Manager",
-  description: "Alan Tutoring Appointment Manager",
+  title: translations.applicationTitle,
+  description: translations.applicationTitle,
 };
 
 export default function RootLayout({ children }) {

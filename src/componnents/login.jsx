@@ -8,6 +8,7 @@ import Form from "@/UI/form";
 import FormInput from "@/UI/input";
 import Message from "@/UI/message";
 import signInPassword from "@/utils/signInPassword";
+import { translations } from "@/utils/translations";
 
 export default function Login() {
   const [password, setPassword] = useState("");
@@ -25,7 +26,7 @@ export default function Login() {
         router.push('/');
       })
       .catch(e=>{
-        setLoginError(`sign in error: ${JSON.stringify(e)}`);
+        setLoginError(translations.messages.loginFailure(JSON.stringify(e)));
       })
   };
   const handleResetPassword = () => {
@@ -37,7 +38,7 @@ export default function Login() {
       <Form submitAction={handleSubmit}>
         <FormInput
           info={{
-            label: "Email",
+            label: translations.fieldLabels.email,
             name: "email",
             changeAction: setEmail,
             defaultValue: "",
@@ -46,18 +47,18 @@ export default function Login() {
         />
         <FormInput
           info={{
-            label: "Password",
+            label: translations.fieldLabels.password,
             name: "password",
             changeAction: setPassword,
             defaultValue: "",
             type: "password",
           }}
         />
-        <Button>login</Button>
+        <Button>{translations.buttonlabels.login}</Button>
         {loginError ? <Message type="error">{loginError}</Message> : null}
       </Form>
       <div className="flex flex-col items-center">
-        <Button action={handleResetPassword}>reset password</Button>
+        <Button action={handleResetPassword}>{translations.buttonlabels.resetPassword}</Button>
       </div>
     </div>
   );

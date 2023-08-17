@@ -1,5 +1,6 @@
 "use client";
 import Button from "@/UI/button";
+import { translations } from "@/utils/translations";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { useRouter } from "next/navigation";
 
@@ -19,7 +20,7 @@ export default function Logout({ setUser }) {
 
   return (
     <>
-      <Button action={logout}>sign out</Button>
+      <Button action={logout}>{translations.buttonlabels.logout}</Button>
     </>
   );
 }
