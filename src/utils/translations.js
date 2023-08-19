@@ -1,11 +1,11 @@
 export const translations = {
   applicationTitle: "Servicio de Tutorías Alan", //confirmed
-  teacherDashboardTitle: (name) => `Panel de Tutor | ${name}`, //!
-  teacherDashboardHeading: "Panel de Tutor", //!
+  teacherDashboardTitle: (name) => `Panel del Tutor | ${name}`, //!
+  teacherDashboardHeading: "Panel del Tutor", //!
   teacherDashboardGreeting: (email) => `Bienvenido, ${email}`, //!
   upcommingAppointmentsHeading: "Próximas Citas", //!
-  clientDashboardTitle: (name) => `Panel de Cliente | ${name}`, //!
-  clientDashboardHeading: "Panel de Cliente", //!
+  clientDashboardTitle: (name) => `Panel del Cliente | ${name}`, //!
+  clientDashboardHeading: "Panel del Cliente", //!
   clientDashboardGreeting: (email) => `Bienvenido, ${email}`, //!
   loadingMsg: "Cargando",
   fieldLabels: {
@@ -19,7 +19,7 @@ export const translations = {
   fieldValues: {
     appointmentType: {
       online: "virtual", //!
-      "in-person": "en persona",
+      "in-person": "presencial",
     },
   },
   buttonlabels:{
