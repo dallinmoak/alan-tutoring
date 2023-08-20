@@ -89,3 +89,8 @@ i.symbol {
   text-rendering: optimizeLegibility;
   font-feature-settings: 'liga';
 }
+
+i.inline-symbol {
+  display: contents;
+  font-size: 1em;
+}

@@ -1,6 +1,6 @@
 "use client";
 
-import AppointmentListItem from "./item";
+import AppointmentListItem from "./item/item";
 import Heading from "@/UI/heading";
 import { useEffect, useState } from "react";
 import Loading from "@/app/loading";

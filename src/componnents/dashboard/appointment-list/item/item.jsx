@@ -3,6 +3,7 @@
 import Button from "@/UI/button";
 import Card from "@/UI/card";
 import { translations } from "@/utils/translations";
+import ItemMainContent from "./main-content";
 
 export default function AppointmentListItem({ appointment }) {
   const {
@@ -47,19 +48,8 @@ export default function AppointmentListItem({ appointment }) {
   );
 
   return (
-    <Card type="inv">
-      <div className="flex justify-between text-xl">
-        <div>
-          {new Intl.DateTimeFormat("default").format(start)}
-        </div>
-        <div>
-          {new Intl.DateTimeFormat("default", timeFormat).format(start)}
-        </div>
-      </div>
-      <div>{`${translations.fieldLabels.appointmentType}: ${translations.fieldValues.appointmentType[type]}`}</div>
-      {type == "in-person" ? <div>{`${translations.fieldLabels.appointmentLocation}: ${location}`}</div> : null}
-      <div>{`${translations.fieldLabels.appointmentClient}: ${f_name} ${l_name}`}</div>
-      <i className="symbol bg-main-brand- text-light-shades-">face</i>
-    </Card>
+    <>
+      <ItemMainContent appointment={appointment} />
+    </>
   );
 }
