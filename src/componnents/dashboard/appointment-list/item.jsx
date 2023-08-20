@@ -16,7 +16,11 @@ export default function AppointmentListItem({ appointment }) {
     google_id,
     f_name,
     l_name,
-    subject,
+    topic,
+    student_f_name,
+    student_l_name,
+    price,
+    paid,
   } = { ...appointment };
 
   function intervalInMinutes(istart, iend) {
@@ -55,8 +59,7 @@ export default function AppointmentListItem({ appointment }) {
       <div>{`${translations.fieldLabels.appointmentType}: ${translations.fieldValues.appointmentType[type]}`}</div>
       {type == "in-person" ? <div>{`${translations.fieldLabels.appointmentLocation}: ${location}`}</div> : null}
       <div>{`${translations.fieldLabels.appointmentClient}: ${f_name} ${l_name}`}</div>
-      {/* <div>teacher_id: {teacher_id}</div> */}
-      {/* <div>id: {id}</div> */}
+      <i className="symbol bg-main-brand- text-light-shades-">face</i>
     </Card>
   );
 }

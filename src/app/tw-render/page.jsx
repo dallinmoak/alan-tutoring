@@ -29,6 +29,9 @@ export default function TwRender() {
 
       {/* @/components/dashboard/appointment-list/item upper */}
       <div className="flex justify-between text-xl" />
+
+      {/* @components/dashboard/appointment-list/items i */}
+      <i className="symbol bg-main-brand text-light-shades-"></i>
     </>
   );
 }
