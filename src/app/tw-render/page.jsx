@@ -31,7 +31,15 @@ export default function TwRender() {
       <div className="flex justify-between text-xl" />
 
       {/* @components/dashboard/appointment-list/items i */}
-      <i className="symbol bg-main-brand text-light-shades-"></i>
+      <i className="symbol cursor-pointer rounded p-1 hover:bg-dark-shades-lighter dark:hover:bg-light-shades-darker"></i>
+      <i className="symbol cursor-pointer rounded p-1 hover:bg-dark-shades-darker dark:hover:bg-light-shades-"></i>
+
+      <div className="px-[0.125rem]"></div>
+      <div className="py-2"></div>
+      <div className="pt-1"></div>
+      <span className="[&>span]:underline [&>span]:rounded [&>span]:p-1"></span>
+      <div className="bg-dark-shades- dark:bg-light-shades- p-1 rounded-lg"></div>
+      <div className="flex mr-4"></div>
     </>
   );
 }

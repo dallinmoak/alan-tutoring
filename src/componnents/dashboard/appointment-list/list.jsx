@@ -30,7 +30,7 @@ export default function AppointmentList() {
   return (
     <>
       <Heading size="md">{translations.upcommingAppointmentsHeading}</Heading>
-      <div className="p-2 space-y-1">
+      <div className="px-[0.125rem] py-2 space-y-1">
         <>
           {loading ? (
             <Loading />

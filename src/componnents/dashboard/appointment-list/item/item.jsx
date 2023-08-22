@@ -1,55 +1,32 @@
 "use client";
 
-import Button from "@/UI/button";
 import Card from "@/UI/card";
-import { translations } from "@/utils/translations";
 import ItemMainContent from "./main-content";
+import ItemAdditionalContent from "./additional-contents";
+import { useState } from "react";
 
 export default function AppointmentListItem({ appointment }) {
-  const {
-    id,
-    teacher_id,
-    start,
-    end,
-    type,
-    location,
-    client_id,
-    google_id,
-    f_name,
-    l_name,
-    topic,
-    student_f_name,
-    student_l_name,
-    price,
-    paid,
-  } = { ...appointment };
+  const [expanded, setExpanded] = useState(false);
 
-  function intervalInMinutes(istart, iend) {
-    return Math.round((iend - istart) / 1000 / 60);
-  }
-
-  const timeFormat = {
-    hour: "numeric",
-    minute: "numeric",
+  const handleExpand = () => {
+    setExpanded(true);
   };
-  const extraContents = (
-    <>
-      {/* meeting duration */}
-      <div>
-        Duration: {intervalInMinutes(start, end)} minutes
-      </div>
-      {/* Meeting link */}
-      {type == "online" ? (
-        <Button>
-          <a href="zoom.com">Join</a>
-        </Button>
-      ) : null}
-    </>
-  );
 
   return (
-    <>
+    <Card type="inv">
       <ItemMainContent appointment={appointment} />
-    </>
+      {expanded ? (
+        <ItemAdditionalContent appointment={appointment} collapse={()=> setExpanded(false)}/>
+      ) : (
+        <div className="flex justify-end">
+          <i
+            onClick={handleExpand}
+            className="symbol cursor-pointer rounded p-1 hover:bg-dark-shades-darker dark:hover:bg-light-shades-"
+          >
+            expand_all
+          </i>
+        </div>
+      )}
+    </Card>
   );
 }
