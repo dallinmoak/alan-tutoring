@@ -20,7 +20,7 @@ export const translations = {
     appointmentStudentName: 'Estudiante',
     appointmentClientProfileLink: 'Perfil del cliente',
     appointmentPaid: 'Pagó',
-    appointmentPrice: (price) => `Precio: ${price}L`,
+    appointmentPrice: (price) => `Precio: L${price}`,
   },
   fieldValues: {
     appointmentType: {
