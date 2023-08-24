@@ -31,7 +31,7 @@ export default function TeacherDash({ user }) {
       <div className="flex justify-center">
         <div>{translations.teacherDashboardGreeting(teacherName.first + " " + teacherName.last)}</div>
       </div>
-      <div className="p-1">
+      <div className="pt-1">
         <AppointmentList />
       </div>
     </div>

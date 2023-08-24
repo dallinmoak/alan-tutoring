@@ -14,13 +14,23 @@ export const translations = {
     newPassword: "Nueva contraseña", //!
     appointmentType: "Tipo", //!
     appointmentClient: "Cliente", //!
-    appointmentLocation: "Dirección" //!
+    appointmentLocation: "Dirección", //!
+    appointmentDuration: (duration) => `Duración: ${duration} minutos`,
+    appointmentTopic: 'Tema',
+    appointmentStudentName: 'Estudiante',
+    appointmentClientProfileLink: 'Perfil del cliente',
+    appointmentPaid: 'Pagó',
+    appointmentPrice: (price) => `Precio: L${price}`,
   },
   fieldValues: {
     appointmentType: {
       online: "virtual", //!
       "in-person": "presencial",
     },
+    appointmentPaid: {
+      true: 'Pagó',
+      false: 'No Pagó',
+    }
   },
   buttonlabels:{
     login: "Iniciar sesión", //!
