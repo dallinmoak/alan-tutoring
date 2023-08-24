@@ -13,6 +13,11 @@ export default function ItemAdditionalContent({ appointment, collapse }) {
     return Math.round((iend - istart) / 1000 / 60);
   };
 
+  const paidMsgClasses = {
+    true: "text-success- dark:text-success-darker",
+    false: "text-danger- dark:text-danger-darker",
+  };
+
   return (
     <div className="bg-dark-shades- dark:bg-light-shades- p-1 rounded-lg">
       <div className="flex justify-between">
@@ -44,10 +49,12 @@ export default function ItemAdditionalContent({ appointment, collapse }) {
           {translations.fieldLabels.appointmentPrice(price)}
         </div>
         <div className="px-1">
-          <Checkbox
-            label={translations.fieldLabels.appointmentPaid}
-            value={paid}
-          />
+          <div className="[&>span]:flex">
+            <span className={paidMsgClasses[paid]}>
+              <i className="symbol">{paid ? "done" : "close"}</i>
+              {translations.fieldValues.appointmentPaid[paid]}
+            </span>
+          </div>
         </div>
       </div>
       <div className="flex justify-end">

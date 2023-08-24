@@ -40,6 +40,9 @@ export default function TwRender() {
       <span className="[&>span]:underline [&>span]:rounded [&>span]:p-1"></span>
       <div className="bg-dark-shades- dark:bg-light-shades- p-1 rounded-lg"></div>
       <div className="flex mr-4"></div>
+      <div className="[&>span]:flex"></div>
+      <span className="text-success- dark:text-success-darker"></span>
+      <span className="text-danger- dark:text-danger-darker"></span>
     </>
   );
 }

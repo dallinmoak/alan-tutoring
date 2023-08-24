@@ -27,6 +27,10 @@ export const translations = {
       online: "virtual", //!
       "in-person": "presencial",
     },
+    appointmentPaid: {
+      true: 'Pagó',
+      false: 'No Pagó',
+    }
   },
   buttonlabels:{
     login: "Iniciar sesión", //!
