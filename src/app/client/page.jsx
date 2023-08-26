@@ -4,6 +4,7 @@ import ClientDash from "@/componnents/dashboard/client";
 import { useEffect, useState } from "react";
 import Loading from "../loading";
 import getUserWithRole from "@/utils/getUserWithRole";
+import Logout from "@/componnents/logout";
 
 export default function TeacherPage() {
   const [loading, setLoading] = useState(true);
