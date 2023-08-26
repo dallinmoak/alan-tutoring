@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 
 export const dynamic = "force-dynamic";
 
-export default async function Home() {
+export default function Home() {
   const router = useRouter();
   getUserWithRole()
     .then((res) => {
