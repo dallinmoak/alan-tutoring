@@ -43,6 +43,13 @@ export default function TwRender() {
       <div className="[&>span]:flex"></div>
       <span className="text-success- dark:text-success-darker"></span>
       <span className="text-danger- dark:text-danger-darker"></span>
+      <div className="flex justify-center w-full bg-dark-shades-"></div>
+      <div className="space-x-2"></div>
+      <div className="space-x-1"></div>
+      <span className="text-[1.0625rem] whitespace-nowrap"></span>
+      <div className="flex justify-center w-full bg-light-shades-lighter text-dark-shades- dark:bg-dark-shades-lighter dark:text-light-shades- space-x-1 py-2 flex-wrap"></div>
+      <a className="font-bold underline decoration-2"></a>
+      <div className="space-y-4 w-full px-1"></div>
     </>
   );
 }

@@ -7,7 +7,7 @@ import getUserWithRole from "@/utils/getUserWithRole";
 import Logout from "@/componnents/logout";
 import Loading from "@/app/loading";
 
-export default function UserDash() {
+export default function UserDash({ children }) {
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState({});
 
@@ -29,9 +29,9 @@ export default function UserDash() {
   }, []);
 
   const userDashboards = {
-    client: <ClientDash user={user} />,
-    teacher: <TeacherDash user={user} />,
-  }
+    client: <ClientDash user={user}>{children}</ClientDash>,
+    teacher: <TeacherDash user={user}>{children}</TeacherDash>,
+  };
 
   return (
     <>

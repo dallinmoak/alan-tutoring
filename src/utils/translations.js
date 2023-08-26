@@ -21,6 +21,9 @@ export const translations = {
     appointmentClientProfileLink: 'Perfil del cliente',
     appointmentPaid: 'Pagó',
     appointmentPrice: (price) => `Precio: L${price}`,
+    teacherNavHome: "Inico",
+    teacherNavNewAppointment: "Nueva Cita",
+    teacherNaveNewClient: "Nuevo Cliente",
   },
   fieldValues: {
     appointmentType: {
@@ -37,8 +40,9 @@ export const translations = {
     resetPassword: "Restablecer contraseña", //!
     sendPasswordResetRequest: "Enviar solicitud para restablecer contraseña", //!
     setNewPassword: "Establecer nueva contraseña", //!
-    home: "Inicio", //!
+    home: "Ir a la página de inicio", //!
     logout: "Cerrar sesión", //!
+    createAppointment: "Crear Cita",
   },
   messages: {
     loginFailure: (error) => `Contraseña o correo incorrecta. Error de servidor: ${error}`, //!
