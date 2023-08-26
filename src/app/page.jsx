@@ -1,10 +1,17 @@
-import HomeClient from "@/componnents/home-client";
+'use client'
+
+import getUserWithRole from "@/utils/getUserWithRole";
+import { useRouter } from "next/navigation";
 
 export const dynamic = "force-dynamic";
 
 export default async function Home() {
-
-  return (
-      <HomeClient />
-  );
+  const router = useRouter();
+  getUserWithRole()
+    .then((res) => {
+      router.push(`${res.appRole}`);
+    })
+    .catch((e) => {
+      router.push("/login");
+    });
 }
