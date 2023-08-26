@@ -39,7 +39,7 @@ export default function Login() {
     router.push(`/login/reset?${params}`);
   };
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 w-full">
       <Form submitAction={handleSubmit}>
         <FormInput
           info={{
