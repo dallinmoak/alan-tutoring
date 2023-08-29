@@ -6,11 +6,16 @@ export default function Checkbox({
   editable = false,
   value,
 }) {
+
+  const checkBoxOnChange = (e) =>{
+    action(e.target.checked)
+  } 
+
   if (editable) {
     return (
       <>
         <label>{`${label}: `}</label>
-        <input type="checkbox" onChange={action} />;
+        <input className="dark:[color-scheme:dark]" type="checkbox" value={value} onChange={checkBoxOnChange} />
       </>
     );
   } else {

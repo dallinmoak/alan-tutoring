@@ -8,6 +8,7 @@ export const translations = {
   clientDashboardHeading: "Panel del Cliente", //!
   clientDashboardGreeting: (email) => `Bienvenido, ${email}`, //!
   loadingMsg: "Cargando",
+  dropdownSelectPrompt: "select",
   fieldLabels: {
     email: "Correo electrónico", //!
     password: "Contraseña", //!
@@ -16,11 +17,14 @@ export const translations = {
     appointmentClient: "Cliente", //!
     appointmentLocation: "Dirección", //!
     appointmentDuration: (duration) => `Duración: ${duration} minutos`,
+    appointmentDurationAlt: "Duración (minutos)",
     appointmentTopic: 'Tema',
     appointmentStudentName: 'Estudiante',
+    appointmentStart: 'Start',
     appointmentClientProfileLink: 'Perfil del cliente',
     appointmentPaid: 'Pagó',
     appointmentPrice: (price) => `Precio: L${price}`,
+    appointmentPriceAlt: "Precio (Lempiras)",
     teacherNavHome: "Inico",
     teacherNavNewAppointment: "Nueva Cita",
     teacherNaveNewClient: "Nuevo Cliente",
@@ -43,6 +47,8 @@ export const translations = {
     home: "Ir a la página de inicio", //!
     logout: "Cerrar sesión", //!
     createAppointment: "Crear Cita",
+    formSubmit: "Submit",
+    cancelForm: "Cancel",
   },
   messages: {
     loginFailure: (error) => `Contraseña o correo incorrecta. Error de servidor: ${error}`, //!
