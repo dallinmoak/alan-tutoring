@@ -72,6 +72,11 @@
   }
 }
 
+/* force scroll bar not to displace content when it appears */
+body {
+  padding-left: calc(100vw - 100%);
+}
+
 i.symbol {
   font-family: var(--font-family-symbols);
   font-weight: normal;

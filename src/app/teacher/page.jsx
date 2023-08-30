@@ -1,5 +1,5 @@
 "use client";
-import UserDash from "@/componnents/dashboard/main";
+
 import Heading from "@/UI/heading";
 import getUser from "@/utils/getUser";
 import getTeacherById from "@/utils/getTeacherById";
