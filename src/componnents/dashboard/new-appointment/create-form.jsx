@@ -9,6 +9,7 @@ import Dropdown from "@/UI/dropdown";
 import dateToDateInput from "@/utils/dateToDateInput";
 import Checkbox from "@/UI/checkbox";
 import SelectStudent from "./select-student";
+import checkList from "@/utils/createClientValidationChecklist";
 
 export default function AppointmentCreateForm({ hideForm, submitCreate }) {
   const defaultDuration = 60;
@@ -16,6 +17,11 @@ export default function AppointmentCreateForm({ hideForm, submitCreate }) {
   const defaultEndObj = new Date(
     defaultStartObj.valueOf() + defaultDuration * 60 * 1000
   );
+  const defaultOnlinePrice = 400;
+  const defaultInPersonPrice = {
+    near: 500,
+    far: 600,
+  };
 
   const appointmentDefault = {
     teacher_id: "TODO",
@@ -28,6 +34,7 @@ export default function AppointmentCreateForm({ hideForm, submitCreate }) {
     type: null,
     paid: false,
     location: null,
+    location_type: null,
     topic: null,
     price: 0,
     google_id: "TODO",
@@ -35,43 +42,33 @@ export default function AppointmentCreateForm({ hideForm, submitCreate }) {
 
   const [formIsValid, setIsValid] = useState(false);
   const [newAppointment, setNewAppointment] = useState(appointmentDefault);
+  const [formErrors, setFormErrors] = useState();
 
   const submit = (e) => {
     e.preventDefault();
-    vali;
     if (formIsValid) {
       submitCreate({ newAppointment });
     }
   };
 
-  const validateFieldChange = () => {
-    if (!newAppointment.client_id) {
-      console.log("no client");
-      setIsValid(false);
-    } else if (!newAppointment.student_id) {
-      console.log("no student");
-      setIsValid(false);
-    } else if (!newAppointment.start) {
-      console.log("no start date");
-      setIsValid(false);
-    } else if (newAppointment.start - new Date().valueOf() <= 60 * 1000 * 30) {
-      console.log("start date is less that 30 minutes away");
-      setIsValid(false);
-    } else if (newAppointment.end - newAppointment.start <= 0) {
-      console.log("duration is less than 0 minutes");
-      setIsValid(false);
-    } else if (!newAppointment.type) {
-      console.log("no type");
-      setIsValid(false);
-    } else if (newAppointment.type == "in-person" && !newAppointment.location) {
-      console.log("type is in-person and no location");
-      setIsValid(false);
-    } else if (!newAppointment.price) {
-      console.log("no price");
-    } else {
-      console.log("all good");
-      setIsValid(true);
-    }
+  const validateForm = () => {
+    setFormErrors(null);
+
+    let formErrors;
+    const addFormError = (e) => {
+      if (!formErrors) formErrors = [e];
+      else formErrors.push(e);
+    };
+
+    checkList(newAppointment).forEach((check) => {
+      if (check.condition) {
+        addFormError(check.msg);
+        setIsValid(false);
+      }
+    });
+
+    if (!formErrors) setIsValid(true);
+    setFormErrors(formErrors);
   };
 
   const patchNewAppointment = (newVals) => {
@@ -92,35 +89,19 @@ export default function AppointmentCreateForm({ hideForm, submitCreate }) {
     });
   };
 
-  const handleClientChange = (val) => {
+  const handleClientChange = (val, details) => {
     patchNewAppointment({
       client_id: val,
       student_id: "",
+      type: details ? details.default_appointment_type : "",
+      location_type: details ? details.default_location_type : "",
+      location: details ? details.default_location : "",
     });
   };
+
   const handleStudentChange = (val) => {
     patchNewAppointment({
       student_id: val,
-    });
-  };
-  const handleStartChange = (val) => {
-    const startObj = new Date(val);
-    const endObj = new Date(startObj.valueOf() + (newAppointment.duration * 60 * 1000));
-    patchNewAppointment({
-      start: startObj.valueOf(),
-      startObj: startObj,
-      end: endObj.valueOf(),
-      endObj: endObj,
-    });
-  };
-  const handleDurationChange = (val) => {
-    const endObj = new Date(
-      newAppointment.startObj.valueOf() + val * 60 * 1000
-    );
-    patchNewAppointment({
-      duration: val,
-      endObj: endObj,
-      end: endObj.valueOf(),
     });
   };
 
@@ -133,6 +114,42 @@ export default function AppointmentCreateForm({ hideForm, submitCreate }) {
   const handleLocationChange = (val) => {
     patchNewAppointment({
       location: val,
+    });
+  };
+
+  const handleLocationTypeChange = (val) => {
+    patchNewAppointment({
+      location_type: val,
+    });
+  };
+
+  const handleTopicChange = (val) => {
+    patchNewAppointment({
+      topic: val,
+    });
+  };
+
+  const handleStartChange = (val) => {
+    const startObj = new Date(val);
+    const endObj = new Date(
+      startObj.valueOf() + newAppointment.duration * 60 * 1000
+    );
+    patchNewAppointment({
+      start: startObj.valueOf(),
+      startObj: startObj,
+      end: endObj.valueOf(),
+      endObj: endObj,
+    });
+  };
+
+  const handleDurationChange = (val) => {
+    const endObj = new Date(
+      newAppointment.startObj.valueOf() + val * 60 * 1000
+    );
+    patchNewAppointment({
+      duration: val,
+      endObj: endObj,
+      end: endObj.valueOf(),
     });
   };
 
@@ -149,13 +166,31 @@ export default function AppointmentCreateForm({ hideForm, submitCreate }) {
   };
 
   useEffect(() => {
-    validateFieldChange();
-  }, [newAppointment]);
+    let newPrice;
+    if (newAppointment.type == "online") {
+      newPrice = defaultOnlinePrice;
+    } else if (newAppointment.type == "in-person") {
+      if (newAppointment.location_type == "near") {
+        newPrice = defaultInPersonPrice.near;
+      } else if ((newAppointment.location_type = "far")) {
+        newPrice = defaultInPersonPrice.far;
+      }
+    }
+    if (newPrice) {
+      patchNewAppointment({
+        price: newPrice,
+      });
+    }
+  }, [
+    newAppointment.location_type,
+    newAppointment.location,
+    newAppointment.type,
+  ]);
 
   return (
     <>
-      <div className="space-y-2 p-3 border border-light-shades- rounded-md w-[95%] max-w-md mx-1">
-        {formIsValid ? "✅" : "❌"}
+      <div className="space-y-2 p-3 border  border-dark-shades- dark:border-light-shades- rounded-md w-[95%] max-w-md mx-1">
+        {formIsValid ? "✅" : null}
         <form className="space-y-2" onSubmit={submit}>
           <SelectClient setSelection={handleClientChange} />
           {newAppointment.client_id ? (
@@ -165,12 +200,61 @@ export default function AppointmentCreateForm({ hideForm, submitCreate }) {
               value={newAppointment.student_id}
             />
           ) : null}
+          <Dropdown
+            name={"type"}
+            label={translations.fieldLabels.appointmentType}
+            list={prepAppointmentTypeList()}
+            changeAction={handleTypeChange}
+            value={newAppointment.type}
+          />
+          {newAppointment.type == "in-person" ? (
+            <>
+              <FormInput
+                info={{
+                  name: "location",
+                  label: translations.fieldLabels.appointmentLocation,
+                  changeAction: handleLocationChange,
+                  defaultValue: appointmentDefault.location,
+                  value: newAppointment.location,
+                  type: "text",
+                }}
+              />
+              <Dropdown
+                name={"location type"}
+                label={translations.fieldLabels.appointmentLocationType}
+                list={[
+                  {
+                    id: "near",
+                    value:
+                      translations.fieldValues.appointmentLocationType.near,
+                  },
+                  {
+                    id: "far",
+                    value: translations.fieldValues.appointmentLocationType.far,
+                  },
+                ]}
+                changeAction={handleLocationTypeChange}
+                value={newAppointment.location_type}
+              />
+            </>
+          ) : null}
+          <FormInput
+            info={{
+              name: "topic",
+              label: translations.fieldLabels.appointmentTopic,
+              changeAction: handleTopicChange,
+              defaultValue: appointmentDefault.topic,
+              value: newAppointment.topic,
+              type: "text",
+            }}
+          />
           <FormInput
             info={{
               name: "start",
               label: translations.fieldLabels.appointmentStart,
               changeAction: handleStartChange,
               defaultValue: dateToDateInput(defaultStartObj),
+              value: dateToDateInput(newAppointment.startObj),
               type: "datetime-local",
             }}
           />
@@ -180,27 +264,10 @@ export default function AppointmentCreateForm({ hideForm, submitCreate }) {
               label: translations.fieldLabels.appointmentDurationAlt,
               changeAction: handleDurationChange,
               defaultValue: defaultDuration,
+              value: newAppointment.duration,
               type: "number",
             }}
           />
-          <Dropdown
-            name={"type"}
-            label={translations.fieldLabels.appointmentType}
-            list={prepAppointmentTypeList()}
-            changeAction={handleTypeChange}
-            value={newAppointment.type}
-          />
-          {newAppointment.type == "in-person" ? (
-            <FormInput
-              info={{
-                name: "location",
-                label: translations.fieldLabels.appointmentLocation,
-                changeAction: handleLocationChange,
-                defaultValue: appointmentDefault.location,
-                type: "text",
-              }}
-            />
-          ) : null}
           <Checkbox
             label={translations.fieldLabels.appointmentPaid}
             action={handlePaidChange}
@@ -213,16 +280,27 @@ export default function AppointmentCreateForm({ hideForm, submitCreate }) {
               label: translations.fieldLabels.appointmentPriceAlt,
               changeAction: handlePriceChange,
               defaultValue: appointmentDefault.price,
+              value: newAppointment.price,
               type: "number",
             }}
           />
+          {formIsValid ? null : (
+            <div className="flex flex-col items-end text-danger-darker dark:text-danger- text-end">
+              {formErrors?.map((error, index) => {
+                return <div key={index}>{error}</div>;
+              })}
+            </div>
+          )}
           <div className="flex justify-between">
             <Button btype="danger" action={hideForm}>
               {translations.buttonlabels.cancelForm}
             </Button>
-            <Button btype="success" type="submit">
-              {translations.buttonlabels.formSubmit}
-            </Button>
+            <div className="flex space-x-1">
+              <Button action={validateForm}>validate</Button>
+              <Button btype="success" type="submit">
+                {translations.buttonlabels.formSubmit}
+              </Button>
+            </div>
           </div>
         </form>
       </div>

@@ -1,12 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function FormInput(props) {
-  const { label, name, changeAction, defaultValue, type } = props.info;
+  const { label, name, changeAction, defaultValue, type, value } = props.info;
 
   const [show, setShow] = useState(false);
   const [currentType, setCurrentType] = useState(type);
+  const [localVal, setLocalVal] = useState(value);
 
   const viewIconFalsePaths = [
     "M478.9 164.1c-168.5 9.6-324.1 98.1-421.1 239.4-18.3 26.7-40 66.4-52.6 96.5l-5.3 12.4L5.6 526c7.1 16.6 23.7 49.6 32.9 65 87.2 146.4 234.2 243.8 401.2 265.9 25.9 3.4 42 4.4 72.3 4.4 30.3 0 46.4-1 72.3-4.4 167-22.1 314-119.5 401.2-265.9 9.2-15.4 25.8-48.4 32.9-65l5.7-13.6-5.3-12.4c-33.4-79.6-88-153.3-155-209.2-107.5-89.9-244-134.8-384.9-126.7zm72.6 94c83.1 6.8 164.7 37.6 232 87.4 56 41.4 104.6 98.8 135 159.5l3.7 7.4-3.2 6.6c-9.8 19.9-28.3 49.3-44.1 70.1-68.1 89.4-168.1 151.2-277.5 171.4-32.6 6-43.9 6.9-85.4 6.9-41.5 0-52.8-.9-85.4-6.9-109.4-20.2-209.4-82-277.5-171.4-15.8-20.8-34.3-50.2-44.1-70.1l-3.2-6.6 3.7-7.4c30.4-60.7 78.9-118 135-159.5 64.6-47.8 140.9-77.6 222-86.5 26.1-2.9 60.5-3.3 89-.9z",
@@ -18,6 +19,17 @@ export default function FormInput(props) {
     "M487 280.5c-11.1 1.6-22.8 4-23.8 4.9-.3.4 20.7 22.1 46.8 48.2 44.5 44.5 48 47.8 55.5 51.7 21 11 39.2 29.5 50.3 51.2 2.6 5 10.9 13.9 50.6 53.5 26.1 26.1 47.7 47.2 48 46.9.8-.8 4.5-21.1 5.6-30.4 5.8-52-12.1-110.3-46.5-151.4-35.6-42.5-84.8-69.1-138.7-75-12.9-1.4-36-1.2-47.8.4z",
   ];
 
+  const handleInputChange = (e) => {
+    // console.log('event', e.target.value);
+    const myValue = e.target.value;
+    setLocalVal(myValue);
+    changeAction(myValue);
+  };
+
+  useEffect(() => {
+    setLocalVal(value);
+  }, [value]);
+
   return (
     <div className="flex flex-col">
       <label htmlFor={name}>{label}</label>
@@ -26,8 +38,9 @@ export default function FormInput(props) {
           className="focus-visible:outline-none p-1 w-full col-start-1 col-span-2 row-start-1 dark:[color-scheme:dark]"
           name={name}
           type={currentType}
-          onChange={(e) => changeAction(e.target.value)}
-          defaultValue={defaultValue}
+          value={localVal}
+          onChange={handleInputChange}
+          // defaultValue={defaultValue}
         />
         {type == "password" ? (
           <div className="[&>svg]:h-5 [&>svg]:pe-1 col-start-2 row-start-1 flex justify-end items-center text-dark-shades- dark:text-light-shades- fill-current">
@@ -36,7 +49,9 @@ export default function FormInput(props) {
               version="1.0"
               viewBox="0 0 1024 1024"
               onClick={() => {
-                setCurrentType((prev) => (prev == "text" ? "password" : "text"));
+                setCurrentType((prev) =>
+                  prev == "text" ? "password" : "text"
+                );
                 setShow((prev) => (prev == false ? true : false));
               }}
             >

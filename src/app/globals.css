@@ -58,9 +58,9 @@
     --warning-lighter: #E1AA51;
     --warning-darker: #9D6B1B;
 
-    --danger: #f44336;
+    --danger: #d9584e;
     --danger-lighter: #F88077;
-    --danger-darker: #E91B0C;
+    --danger-darker: #a82d24;
   }
   @media (prefers-color-scheme: dark) {
     :root {
@@ -98,4 +98,8 @@ i.symbol {
 i.inline-symbol {
   display: contents;
   font-size: 1em;
+}
+
+.wrap-last-right {
+  text-align-last: right;
 }

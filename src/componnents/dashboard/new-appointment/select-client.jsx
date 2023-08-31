@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 export default function SelectClient({ setSelection }) {
   const [loading, setLoading] = useState(true);
   const [clients, setClients] = useState([]);
+  const [detailedClients, setDetailedClients] = useState([]);
   const [error, setError] = useState();
 
   const getClients = async () => {
@@ -15,6 +16,7 @@ export default function SelectClient({ setSelection }) {
       .then((res) => {
         if (res.status == 200) {
           res.json().then((data) => {
+            setDetailedClients(data);
             setClients(
               data.map((datum) => {
                 return {
@@ -37,13 +39,18 @@ export default function SelectClient({ setSelection }) {
       });
   };
   const handleChangeClient = (newClient) => {
-    setSelection(newClient)
-  }
+    const detailsList = detailedClients.filter(
+      (details) => details.id == newClient
+    );
+    const details = detailsList.length > 0 ? detailsList[0] : undefined;
+    setSelection(newClient, details);
+  };
 
   const clientListDisplay = () => {
     if (clients.length) {
       return (
         <Dropdown
+          value=''
           name="client"
           label={translations.fieldLabels.appointmentClient}
           list={clients}

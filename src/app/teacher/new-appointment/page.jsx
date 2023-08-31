@@ -57,6 +57,7 @@ export default function NewAppointment() {
 //   student_id: 1,
 //   paid: false,
 //   location: "",
+//   location_type: "near",
 //   topic: "topic 2",
 //   google_id: "1",
 //   price: 45,
