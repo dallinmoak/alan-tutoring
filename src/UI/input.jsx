@@ -38,7 +38,7 @@ export default function FormInput(props) {
           className="focus-visible:outline-none p-1 w-full col-start-1 col-span-2 row-start-1 dark:[color-scheme:dark]"
           name={name}
           type={currentType}
-          value={localVal}
+          value={localVal ? localVal : ""}
           onChange={handleInputChange}
           // defaultValue={defaultValue}
         />

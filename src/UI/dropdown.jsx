@@ -18,7 +18,7 @@ export default function Dropdown({ name, label, list, changeAction, value }) {
   const selectInner = (
     <select
       className="h-8 bg-light-shades- dark:bg-dark-shades- border-b border-b-dark-shades- dark:border-b-light-shades- focus-visible:outline-none dark:[color-scheme:dark] divide-y divide-dashed"
-      value={localVal}
+      value={localVal ? localVal : ""}
       name={name}
       onChange={handleChange}
       // defaultValue=""

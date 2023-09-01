@@ -39,10 +39,15 @@ const checkList = (newAppointment) =>{
       msg: `"${translations.fieldLabels.appointmentType}" es obligatorio`,
     },
     {
+      name: "no location type when in-person",
+      condition: newAppointment.type == 'in-person' && !newAppointment.location_type,
+      msg: `"${translations.fieldLabels.appointmentLocationType}" es obligatorio cuando "${translations.fieldLabels.appointmentType}" es "${translations.fieldValues.appointmentType["in-person"]}"`
+    },
+    {
       name: "no location when in-person",
       condition:
         newAppointment.type == "in-person" && !newAppointment.location,
-      msg: `"${translations.fieldLabels.appointmentDurationAlt2}" es obligatorio cuando "${translations.fieldLabels.appointmentType}" es "${translations.fieldValues.appointmentType["in-person"]}"`,
+      msg: `"${translations.fieldLabels.appointmentLocation}" es obligatorio cuando "${translations.fieldLabels.appointmentType}" es "${translations.fieldValues.appointmentType["in-person"]}"`,
     },
     {
       name: "no price",

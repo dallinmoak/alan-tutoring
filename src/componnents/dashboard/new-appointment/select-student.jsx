@@ -1,11 +1,11 @@
 "use client";
-import Dropdown from "@/UI/dropdown";
+import Field from "./field";
 import Loading from "@/app/loading";
-import NewAppointment from "@/app/teacher/new-appointment/page";
 import { translations } from "@/utils/translations";
 import { useEffect, useState } from "react";
 
-export default function SelectStudent({ client_id, changeAction, value }) {
+export default function SelectStudent({ data }) {
+  const { client_id, changeAction, value } = { ...data };
   const [loading, setLoading] = useState(true);
   const [students, setStudents] = useState([]);
 
@@ -35,20 +35,24 @@ export default function SelectStudent({ client_id, changeAction, value }) {
   };
 
   useEffect(() => {
-    getStudents(client_id);
+    if (client_id) {
+      getStudents(client_id);
+    }
   }, [client_id]);
 
-  if (loading) {
+  if(!client_id){
+    return null;
+  } else if (loading) {
     return <Loading />;
   } else {
-    return students.length ? (
-      <Dropdown
-        name="student"
-        label={translations.fieldLabels.appointmentStudentName}
-        list={students}
-        changeAction={changeAction}
-        value={value}
-      />
-    ) : null;
-  }
+    const fieldData = {
+      type: "dropdown",
+      name: "student",
+      value: value,
+      label: translations.fieldLabels.appointmentStudentName,
+      list: students,
+      changeAction: changeAction,
+    };
+    return students.length ? <Field data={fieldData} /> : null;
+  } 
 }

@@ -1,9 +1,9 @@
 "use client";
 
-import Dropdown from "@/UI/dropdown";
 import Loading from "@/app/loading";
 import { translations } from "@/utils/translations";
 import { useEffect, useState } from "react";
+import Field from "./field";
 
 export default function SelectClient({ setSelection }) {
   const [loading, setLoading] = useState(true);
@@ -48,14 +48,16 @@ export default function SelectClient({ setSelection }) {
 
   const clientListDisplay = () => {
     if (clients.length) {
+      const fieldData = {
+        type: 'dropdown',
+        value: '',
+        name: 'client',
+        label: translations.fieldLabels.appointmentClient,
+        list: clients,
+        changeAction: handleChangeClient
+      }
       return (
-        <Dropdown
-          value=''
-          name="client"
-          label={translations.fieldLabels.appointmentClient}
-          list={clients}
-          changeAction={handleChangeClient}
-        />
+        <Field data={fieldData}/>
       );
     } else return "error";
   };
