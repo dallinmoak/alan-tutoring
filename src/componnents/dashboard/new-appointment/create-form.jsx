@@ -9,30 +9,39 @@ import checkList from "@/utils/createClientValidationChecklist";
 import Field from "./field";
 import fieldData from "./fieldData";
 import appointmentDefault from "./defaults";
+import getUser from "@/utils/getUser";
 
 export default function AppointmentCreateForm({ hideForm, submitCreate }) {
   const [formIsValid, setIsValid] = useState(false);
   const [newAppointment, setNewAppointment] = useState(appointmentDefault);
   const [formErrors, setFormErrors] = useState();
 
-  const submit = (e) => {
+  const submit = async (e) => {
     e.preventDefault();
     if (validateForm()) {
-      submitCreate({
-        teacher_id: newAppointment.teacher_id,
-        start: newAppointment.start,
-        end: newAppointment.end,
-        type: newAppointment.type,
-        paid: newAppointment.paid,
-        price: newAppointment.price,
-        location: newAppointment.location,
-        location_type: newAppointment.location_type,
-        topic: newAppointment.topic,
-        client_id: newAppointment.client_id,
-        student_id: newAppointment.student_id,
-        duration: newAppointment.duration,
-        google_id: 'TODO',
-      });
+      try {
+        const user = await getUser();
+        const teacher_id = user.id;
+        if (teacher_id) {
+          submitCreate({
+            teacher_id: teacher_id,
+            start: newAppointment.start,
+            end: newAppointment.end,
+            type: newAppointment.type,
+            paid: newAppointment.paid,
+            price: newAppointment.price,
+            location: newAppointment.location,
+            location_type: newAppointment.location_type,
+            topic: newAppointment.topic,
+            client_id: newAppointment.client_id,
+            student_id: newAppointment.student_id,
+            // duration: newAppointment.duration,
+            google_id: "TODO",
+          });
+        }
+      } catch (e) {
+        console.log(e);
+      }
     }
   };
 
@@ -121,67 +130,85 @@ export default function AppointmentCreateForm({ hideForm, submitCreate }) {
               },
             }}
           />
-          <SelectStudent data={{
+          <SelectStudent
+            data={{
               ...selectStudentData,
               error: {
                 state: formErrors?.student ? true : false,
                 msg: formErrors?.student ? formErrors?.student : "",
               },
-            }} />
-          <Field data={{
+            }}
+          />
+          <Field
+            data={{
               ...typeFieldData,
               error: {
                 state: formErrors?.type ? true : false,
                 msg: formErrors?.type ? formErrors?.type : "",
               },
-            }} />
+            }}
+          />
           {newAppointment.type == "in-person" ? (
             <>
-              <Field data={{
-              ...locationFieldData,
-              error: {
-                state: formErrors?.location ? true : false,
-                msg: formErrors?.location ? formErrors?.location : "",
-              },
-            }} />
-              <Field data={{
-              ...locationTypeFieldData,
-              error: {
-                state: formErrors?.location_type ? true : false,
-                msg: formErrors?.location_type ? formErrors?.location_type : "",
-              },
-            }} />
+              <Field
+                data={{
+                  ...locationFieldData,
+                  error: {
+                    state: formErrors?.location ? true : false,
+                    msg: formErrors?.location ? formErrors?.location : "",
+                  },
+                }}
+              />
+              <Field
+                data={{
+                  ...locationTypeFieldData,
+                  error: {
+                    state: formErrors?.location_type ? true : false,
+                    msg: formErrors?.location_type
+                      ? formErrors?.location_type
+                      : "",
+                  },
+                }}
+              />
             </>
           ) : null}
-          <Field data={{
+          <Field
+            data={{
               ...topicFieldData,
               error: {
                 state: formErrors?.topic ? true : false,
                 msg: formErrors?.topic ? formErrors?.topic : "",
               },
-            }} />
-          <Field data={{
+            }}
+          />
+          <Field
+            data={{
               ...StartDateFieldData,
               error: {
                 state: formErrors?.start ? true : false,
                 msg: formErrors?.start ? formErrors?.start : "",
               },
-            }} />
-          <Field data={{
+            }}
+          />
+          <Field
+            data={{
               ...durationFieldData,
               error: {
                 state: formErrors?.duration ? true : false,
                 msg: formErrors?.duration ? formErrors?.duration : "",
               },
-            }} />
+            }}
+          />
           <Field data={paidFieldData} />
-          <Field data={{
+          <Field
+            data={{
               ...priceFieldData,
               error: {
                 state: formErrors?.price ? true : false,
                 msg: formErrors?.price ? formErrors?.price : "",
               },
-            }} />
+            }}
+          />
           {formIsValid ? null : (
             <div className="flex flex-col items-end text-danger-darker dark:text-danger- text-end">
               {formErrors

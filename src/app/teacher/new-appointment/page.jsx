@@ -11,6 +11,7 @@ export default function NewAppointment() {
   const [successMsg, setSuccessMsg] = useState();
 
   const newAppointment = async (newObj) => {
+    // console.log(newObj);
     fetch("/api/newAppointment", {
       method: "POST",
       headers: {
@@ -21,7 +22,10 @@ export default function NewAppointment() {
       .then((res) => {
         res
           .json()
-          .then((resBody) => console.log(resBody))
+          .then((resBody) => {
+            // console.log(resBody);
+            setSuccessMsg(resBody);
+          })
           .catch((e) => console.log(e));
       })
       .catch((e) => console.log(e));
@@ -42,12 +46,11 @@ export default function NewAppointment() {
           </div>
         ) : null}
         {showForm ? (
-          // <AppointmentCreateForm hideForm={()=> setShowForm(false)} submitCreate={(newObj) => newAppointment(newObj)}/>
           <AppointmentCreateForm
             hideForm={() => setShowForm(false)}
             submitCreate={(newObj) => {
+              newAppointment(newObj);
               setShowForm(false);
-              setSuccessMsg(newObj);
             }}
           />
         ) : (
