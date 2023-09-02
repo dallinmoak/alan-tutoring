@@ -40,6 +40,12 @@ export default function SelectStudent({ data }) {
     }
   }, [client_id]);
 
+  useEffect(()=>{
+    if(students.length == 1){
+      changeAction(students[0].id);
+    }
+  },[students])
+
   if(!client_id){
     return null;
   } else if (loading) {
