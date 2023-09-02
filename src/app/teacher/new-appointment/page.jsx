@@ -36,8 +36,8 @@ export default function NewAppointment() {
         {successMsg ? (
           <div className="flex flex-col justify-start">
             new appointment:
-            {Object.keys(successMsg).map((key) => {
-              return <div>{`${key}: ${successMsg[key]}`}</div>;
+            {Object.keys(successMsg).map((key, index) => {
+              return <div key={index}>{`${key}: ${successMsg[key]}`}</div>;
             })}
           </div>
         ) : null}
