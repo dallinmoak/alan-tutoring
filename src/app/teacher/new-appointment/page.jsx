@@ -8,6 +8,7 @@ import { useState } from "react";
 
 export default function NewAppointment() {
   const [showForm, setShowForm] = useState(false);
+  const [successMsg, setSuccessMsg] = useState();
 
   const newAppointment = async (newObj) => {
     fetch("/api/newAppointment", {
@@ -32,11 +33,27 @@ export default function NewAppointment() {
         <Heading size={"md"}>
           {translations.fieldLabels.teacherNavNewAppointment}
         </Heading>
+        {successMsg ? (
+          <div className="flex flex-col justify-start">
+            new appointment:
+            {Object.keys(successMsg).map((key) => {
+              return <div>{`${key}: ${successMsg[key]}`}</div>;
+            })}
+          </div>
+        ) : null}
         {showForm ? (
-          <AppointmentCreateForm hideForm={()=> setShowForm(false)} submitCreate={(newObj) => newAppointment(newObj)}/>
+          // <AppointmentCreateForm hideForm={()=> setShowForm(false)} submitCreate={(newObj) => newAppointment(newObj)}/>
+          <AppointmentCreateForm
+            hideForm={() => setShowForm(false)}
+            submitCreate={(newObj) => {
+              setShowForm(false);
+              setSuccessMsg(newObj);
+            }}
+          />
         ) : (
           <Button
             action={() => {
+              setSuccessMsg(null);
               setShowForm(true);
             }}
           >

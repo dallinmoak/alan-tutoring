@@ -53,6 +53,7 @@ export default function TwRender() {
       <div className="space-y-2 p-3 border  border-dark-shades- dark:border-light-shades- rounded-md w-[95%] max-w-md mx-1"></div>
       <div className="dark:text-danger- w-fit px-1 rounded-sm"></div>
       <div className="flex flex-col items-end dark:text-danger- text-end"></div>
+      <div className="break-words"></div>
     </>
   );
 }

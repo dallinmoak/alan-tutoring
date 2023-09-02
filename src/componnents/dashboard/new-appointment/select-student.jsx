@@ -52,6 +52,7 @@ export default function SelectStudent({ data }) {
       label: translations.fieldLabels.appointmentStudentName,
       list: students,
       changeAction: changeAction,
+      required: true,
     };
     return students.length ? <Field data={fieldData} /> : null;
   } 

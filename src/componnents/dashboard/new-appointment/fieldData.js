@@ -48,6 +48,7 @@ export default function fieldData(newAppointment, setNewAppointment) {
           value: translations.fieldValues.appointmentType[key],
         };
       }),
+      required: true,
     },
     location: {
       type: "text",
@@ -59,6 +60,7 @@ export default function fieldData(newAppointment, setNewAppointment) {
           location: val,
         });
       },
+      required: true,
     },
     location_type: {
       type: "dropdown",
@@ -78,6 +80,7 @@ export default function fieldData(newAppointment, setNewAppointment) {
           };
         }
       ),
+      required: true,
     },
     topic: {
       type: "text",
@@ -107,6 +110,7 @@ export default function fieldData(newAppointment, setNewAppointment) {
           endObj: endObj,
         });
       },
+      required: true,
     },
     duration: {
       type: "number",
@@ -123,6 +127,7 @@ export default function fieldData(newAppointment, setNewAppointment) {
           end: endObj.valueOf(),
         });
       },
+      required: true,
     },
     paid: {
       type: "checkbox",
@@ -145,6 +150,7 @@ export default function fieldData(newAppointment, setNewAppointment) {
           price: val,
         });
       },
+      required: true,
     },
   };
 }

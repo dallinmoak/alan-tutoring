@@ -5,12 +5,13 @@ import Dropdown from "@/UI/dropdown";
 import FormInput from "@/UI/input";
 
 export default function Field({ data }) {
-  const { type, name, label, value, defaultValue, changeAction, list } = {
+  const { type, name, label, value, defaultValue, changeAction, list, required } = {
     ...data,
   };
   if (type == "dropdown") {
     return (
       <Dropdown
+        required={required}
         value={value}
         name={name}
         label={label}
@@ -26,6 +27,7 @@ export default function Field({ data }) {
       value: value,
       defaultValue: defaultValue,
       changeAction: changeAction,
+      required: required,
     };
     return <FormInput info={inputData} />;
   } else if (type == "checkbox") {

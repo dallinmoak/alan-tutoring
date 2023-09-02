@@ -49,6 +49,7 @@ export default function SelectClient({ setSelection }) {
   const clientListDisplay = () => {
     if (clients.length) {
       const fieldData = {
+        required: true,
         type: 'dropdown',
         value: '',
         name: 'client',

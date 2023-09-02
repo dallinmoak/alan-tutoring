@@ -3,7 +3,7 @@
 import { translations } from "@/utils/translations";
 import { useEffect, useState } from "react";
 
-export default function Dropdown({ name, label, list, changeAction, value }) {
+export default function Dropdown({ name, label, list, changeAction, value, required }) {
   const [localVal, setLocalVal] = useState(value);
 
   const handleChange = (e) => {
@@ -21,7 +21,6 @@ export default function Dropdown({ name, label, list, changeAction, value }) {
       value={localVal ? localVal : ""}
       name={name}
       onChange={handleChange}
-      // defaultValue=""
     >
       <option className="hidden" value="" disabled>
         {translations.dropdownSelectPrompt}
@@ -36,13 +35,17 @@ export default function Dropdown({ name, label, list, changeAction, value }) {
     </select>
   );
 
+  const requiredContent = (
+    <div className="text-danger-">*&nbsp;</div>
+  )
+
   return (
     <div className="flex flex-col">
       <label
-        className="text-dark-shades- dark:text-light-shades-"
+        className="text-dark-shades- dark:text-light-shades- flex"
         htmlFor={name}
       >
-        {label}
+        {required ? requiredContent : null}{label}
       </label>
       {localVal ? (
         selectInner

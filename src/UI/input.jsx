@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 
 export default function FormInput(props) {
-  const { label, name, changeAction, defaultValue, type, value } = props.info;
+  const { label, name, changeAction, type, value, required } = props.info;
 
   const [show, setShow] = useState(false);
   const [currentType, setCurrentType] = useState(type);
@@ -30,9 +30,13 @@ export default function FormInput(props) {
     setLocalVal(value);
   }, [value]);
 
+  const requiredContent = (
+    <div className="text-danger-">*&nbsp;</div>
+  )
+
   return (
     <div className="flex flex-col">
-      <label htmlFor={name}>{label}</label>
+      <label className='flex' htmlFor={name}>{required? requiredContent : null}{label}</label>
       <div className="[&>input]:bg-light-shades- [&>input]:dark:bg-dark-shades- focus-visible:[&>input]:bg-light-shades-darker focus-visible:[&>input]:dark:bg-dark-shades-lighter border-b border-b-dark-shades- dark:border-b-light-shades- grid grid-cols-[11fr_1fr] grid-rows-1">
         <input
           className="focus-visible:outline-none p-1 w-full col-start-1 col-span-2 row-start-1 dark:[color-scheme:dark]"
@@ -40,7 +44,6 @@ export default function FormInput(props) {
           type={currentType}
           value={localVal ? localVal : ""}
           onChange={handleInputChange}
-          // defaultValue={defaultValue}
         />
         {type == "password" ? (
           <div className="[&>svg]:h-5 [&>svg]:pe-1 col-start-2 row-start-1 flex justify-end items-center text-dark-shades- dark:text-light-shades- fill-current">

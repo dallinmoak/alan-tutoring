@@ -17,8 +17,21 @@ export default function AppointmentCreateForm({ hideForm, submitCreate }) {
 
   const submit = (e) => {
     e.preventDefault();
-    if (formIsValid) {
-      submitCreate({ newAppointment });
+    if (validateForm()) {
+      submitCreate({
+        teacher_id: newAppointment.teacher_id,
+        start: newAppointment.start,
+        end: newAppointment.end,
+        type: newAppointment.type,
+        paid: newAppointment.paid,
+        price: newAppointment.price,
+        location: newAppointment.location,
+        location_type: newAppointment.location_type,
+        topic: newAppointment.topic,
+        client_id: newAppointment.client_id,
+        student_id: newAppointment.student_id,
+        duration: newAppointment.duration,
+      });
     }
   };
 
@@ -38,8 +51,13 @@ export default function AppointmentCreateForm({ hideForm, submitCreate }) {
       }
     });
 
-    if (!formErrors) setIsValid(true);
     setFormErrors(formErrors);
+    if (!formErrors) {
+      setIsValid(true);
+      return true;
+    } else {
+      return false;
+    }
   };
 
   const patchNewAppointment = (newVals) => {
@@ -117,12 +135,9 @@ export default function AppointmentCreateForm({ hideForm, submitCreate }) {
             <Button btype="danger" action={hideForm}>
               {translations.buttonlabels.cancelForm}
             </Button>
-            <div className="flex space-x-1">
-              <Button action={validateForm}>validate</Button>
-              <Button btype="success" type="submit">
-                {translations.buttonlabels.formSubmit}
-              </Button>
-            </div>
+            <Button btype="success" type="submit">
+              {translations.buttonlabels.formSubmit}
+            </Button>
           </div>
         </form>
       </div>
