@@ -5,7 +5,7 @@ import { translations } from "@/utils/translations";
 import { useEffect, useState } from "react";
 
 export default function SelectStudent({ data }) {
-  const { client_id, changeAction, value } = { ...data };
+  const { client_id, changeAction, value, error } = { ...data };
   const [loading, setLoading] = useState(true);
   const [students, setStudents] = useState([]);
 
@@ -53,6 +53,7 @@ export default function SelectStudent({ data }) {
       list: students,
       changeAction: changeAction,
       required: true,
+      error: error,
     };
     return students.length ? <Field data={fieldData} /> : null;
   } 

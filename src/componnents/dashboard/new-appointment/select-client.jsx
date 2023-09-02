@@ -5,11 +5,12 @@ import { translations } from "@/utils/translations";
 import { useEffect, useState } from "react";
 import Field from "./field";
 
-export default function SelectClient({ setSelection }) {
+export default function SelectClient({ data }) {
+  const { changeAction, error } = {...data};
   const [loading, setLoading] = useState(true);
   const [clients, setClients] = useState([]);
   const [detailedClients, setDetailedClients] = useState([]);
-  const [error, setError] = useState();
+  const [fetchError, setFetchError] = useState();
 
   const getClients = async () => {
     fetch("/api/clients")
@@ -29,7 +30,7 @@ export default function SelectClient({ setSelection }) {
         } else {
           res.json().then((e) => {
             console.log(e);
-            setError(e);
+            setFetchError(e);
           });
         }
       })
@@ -43,7 +44,7 @@ export default function SelectClient({ setSelection }) {
       (details) => details.id == newClient
     );
     const details = detailsList.length > 0 ? detailsList[0] : undefined;
-    setSelection(newClient, details);
+    changeAction(newClient, details);
   };
 
   const clientListDisplay = () => {
@@ -55,7 +56,8 @@ export default function SelectClient({ setSelection }) {
         name: 'client',
         label: translations.fieldLabels.appointmentClient,
         list: clients,
-        changeAction: handleChangeClient
+        changeAction: handleChangeClient,
+        error: error,
       }
       return (
         <Field data={fieldData}/>

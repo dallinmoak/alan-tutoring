@@ -31,6 +31,7 @@ export default function AppointmentCreateForm({ hideForm, submitCreate }) {
         client_id: newAppointment.client_id,
         student_id: newAppointment.student_id,
         duration: newAppointment.duration,
+        google_id: 'TODO',
       });
     }
   };
@@ -40,13 +41,15 @@ export default function AppointmentCreateForm({ hideForm, submitCreate }) {
 
     let formErrors;
     const addFormError = (e) => {
-      if (!formErrors) formErrors = [e];
-      else formErrors.push(e);
+      if (!formErrors) formErrors = e;
+      else formErrors = { ...formErrors, ...e };
     };
 
     checkList(newAppointment).forEach((check) => {
       if (check.condition) {
-        addFormError(check.msg);
+        let error = {};
+        error[check.field] = check.msg;
+        addFormError(error);
         setIsValid(false);
       }
     });
@@ -71,12 +74,11 @@ export default function AppointmentCreateForm({ hideForm, submitCreate }) {
 
   const fieldDataObj = fieldData(newAppointment, setNewAppointment);
 
-  const handleClientChange = fieldDataObj.client.changeAction;
-
+  const selectClientData = fieldDataObj.client;
   const selectStudentData = fieldDataObj.student;
   const typeFieldData = fieldDataObj.type;
   const locationFieldData = fieldDataObj.location;
-  const LocationTypeFieldData = fieldDataObj.location_type;
+  const locationTypeFieldData = fieldDataObj.location_type;
   const topicFieldData = fieldDataObj.topic;
   const StartDateFieldData = fieldDataObj.start;
   const durationFieldData = fieldDataObj.duration;
@@ -110,25 +112,83 @@ export default function AppointmentCreateForm({ hideForm, submitCreate }) {
       <div className="space-y-2 p-3 border  border-dark-shades- dark:border-light-shades- rounded-md w-[95%] max-w-md mx-1">
         {formIsValid ? "✅" : null}
         <form className="space-y-2" onSubmit={submit}>
-          <SelectClient setSelection={handleClientChange} />
-          <SelectStudent data={selectStudentData} />
-          <Field data={typeFieldData} />
+          <SelectClient
+            data={{
+              ...selectClientData,
+              error: {
+                state: formErrors?.client ? true : false,
+                msg: formErrors?.client ? formErrors?.client : "",
+              },
+            }}
+          />
+          <SelectStudent data={{
+              ...selectStudentData,
+              error: {
+                state: formErrors?.student ? true : false,
+                msg: formErrors?.student ? formErrors?.student : "",
+              },
+            }} />
+          <Field data={{
+              ...typeFieldData,
+              error: {
+                state: formErrors?.type ? true : false,
+                msg: formErrors?.type ? formErrors?.type : "",
+              },
+            }} />
           {newAppointment.type == "in-person" ? (
             <>
-              <Field data={locationFieldData} />
-              <Field data={LocationTypeFieldData} />
+              <Field data={{
+              ...locationFieldData,
+              error: {
+                state: formErrors?.location ? true : false,
+                msg: formErrors?.location ? formErrors?.location : "",
+              },
+            }} />
+              <Field data={{
+              ...locationTypeFieldData,
+              error: {
+                state: formErrors?.location_type ? true : false,
+                msg: formErrors?.location_type ? formErrors?.location_type : "",
+              },
+            }} />
             </>
           ) : null}
-          <Field data={topicFieldData} />
-          <Field data={StartDateFieldData} />
-          <Field data={durationFieldData} />
+          <Field data={{
+              ...topicFieldData,
+              error: {
+                state: formErrors?.topic ? true : false,
+                msg: formErrors?.topic ? formErrors?.topic : "",
+              },
+            }} />
+          <Field data={{
+              ...StartDateFieldData,
+              error: {
+                state: formErrors?.start ? true : false,
+                msg: formErrors?.start ? formErrors?.start : "",
+              },
+            }} />
+          <Field data={{
+              ...durationFieldData,
+              error: {
+                state: formErrors?.duration ? true : false,
+                msg: formErrors?.duration ? formErrors?.duration : "",
+              },
+            }} />
           <Field data={paidFieldData} />
-          <Field data={priceFieldData} />
+          <Field data={{
+              ...priceFieldData,
+              error: {
+                state: formErrors?.price ? true : false,
+                msg: formErrors?.price ? formErrors?.price : "",
+              },
+            }} />
           {formIsValid ? null : (
             <div className="flex flex-col items-end text-danger-darker dark:text-danger- text-end">
-              {formErrors?.map((error, index) => {
-                return <div key={index}>{error}</div>;
-              })}
+              {formErrors
+                ? Object.values(formErrors).map((error, index) => {
+                    return <div key={index}>{`${error}`}</div>;
+                  })
+                : null}
             </div>
           )}
           <div className="flex justify-between">

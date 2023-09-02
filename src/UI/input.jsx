@@ -3,7 +3,8 @@
 import { useEffect, useState } from "react";
 
 export default function FormInput(props) {
-  const { label, name, changeAction, type, value, required } = props.info;
+  const { label, name, changeAction, type, value, required, error } =
+    props.info;
 
   const [show, setShow] = useState(false);
   const [currentType, setCurrentType] = useState(type);
@@ -30,13 +31,36 @@ export default function FormInput(props) {
     setLocalVal(value);
   }, [value]);
 
-  const requiredContent = (
-    <div className="text-danger-">*&nbsp;</div>
-  )
+  const requiredContent = <div className="text-danger-">*&nbsp;</div>;
 
-  return (
-    <div className="flex flex-col">
-      <label className='flex' htmlFor={name}>{required? requiredContent : null}{label}</label>
+  const passwordContent = () => {
+    if (type == "password") {
+      return (
+        <div className="[&>svg]:h-5 [&>svg]:pe-1 col-start-2 row-start-1 flex justify-end items-center text-dark-shades- dark:text-light-shades- fill-current">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            version="1.0"
+            viewBox="0 0 1024 1024"
+            onClick={() => {
+              setCurrentType((prev) => (prev == "text" ? "password" : "text"));
+              setShow((prev) => (prev == false ? true : false));
+            }}
+          >
+            {show
+              ? viewIconTruePaths.map((path, index) => {
+                  return <path key={index} d={path} />;
+                })
+              : viewIconFalsePaths.map((path, index) => {
+                  return <path key={index} d={path} />;
+                })}
+          </svg>
+        </div>
+      );
+    }
+  };
+
+  const inputOuter = () => {
+    const inputInner = (
       <div className="[&>input]:bg-light-shades- [&>input]:dark:bg-dark-shades- focus-visible:[&>input]:bg-light-shades-darker focus-visible:[&>input]:dark:bg-dark-shades-lighter border-b border-b-dark-shades- dark:border-b-light-shades- grid grid-cols-[11fr_1fr] grid-rows-1">
         <input
           className="focus-visible:outline-none p-1 w-full col-start-1 col-span-2 row-start-1 dark:[color-scheme:dark]"
@@ -45,30 +69,28 @@ export default function FormInput(props) {
           value={localVal ? localVal : ""}
           onChange={handleInputChange}
         />
-        {type == "password" ? (
-          <div className="[&>svg]:h-5 [&>svg]:pe-1 col-start-2 row-start-1 flex justify-end items-center text-dark-shades- dark:text-light-shades- fill-current">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              version="1.0"
-              viewBox="0 0 1024 1024"
-              onClick={() => {
-                setCurrentType((prev) =>
-                  prev == "text" ? "password" : "text"
-                );
-                setShow((prev) => (prev == false ? true : false));
-              }}
-            >
-              {show
-                ? viewIconTruePaths.map((path, index) => {
-                    return <path key={index} d={path} />;
-                  })
-                : viewIconFalsePaths.map((path, index) => {
-                    return <path key={index} d={path} />;
-                  })}
-            </svg>
-          </div>
-        ) : null}
+        {passwordContent()}
       </div>
+    );
+    if (error?.state) {
+      return (
+        <>
+          <div className="text-danger- text-sm">{error?.msg}</div>
+          <div className="bg-danger- [&>*]:opacity-70">{inputInner}</div>
+        </>
+      );
+    } else {
+      return inputInner;
+    }
+  };
+
+  return (
+    <div className="flex flex-col">
+      <label className="flex" htmlFor={name}>
+        {required ? requiredContent : null}
+        {label}
+      </label>
+      <div>{inputOuter()}</div>
     </div>
   );
 }
