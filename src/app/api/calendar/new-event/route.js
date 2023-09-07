@@ -11,6 +11,9 @@ export async function POST(request) {
     return new Response(JSON.stringify(e), { status: 500 });
   }
   if (requestData) {
+    if (!process.env.GOOGLE_SERVICE_ACCOUNT) {
+      return new Response(JSON.stringify({error: 'no env vars'}), {status: 500});
+    }
     try {
       console.log('env', process.env.GOOGLE_SERVICE_ACCOUNT);
       const client = new JWT({
