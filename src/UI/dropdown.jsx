@@ -15,8 +15,16 @@ export default function Dropdown({
   const [localVal, setLocalVal] = useState(value);
 
   const handleChange = (e) => {
+    let text;
+    Object.keys(e.target).forEach((key) => {
+      if (key.match(/\d+/g)) {
+        if (e.target[key].value == e.target.value) {
+          text = e.target[key].text;
+        }
+      }
+    });
     setLocalVal(e.target.value);
-    changeAction(e.target.value);
+    changeAction(e.target.value, text);
   };
   useEffect(() => {
     setLocalVal(value);

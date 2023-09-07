@@ -39,12 +39,12 @@ export default function SelectClient({ data }) {
         setLoading(false);
       });
   };
-  const handleChangeClient = (newClient) => {
+  const handleChangeClient = (newClient, name) => {
     const detailsList = detailedClients.filter(
       (details) => details.id == newClient
     );
     const details = detailsList.length > 0 ? detailsList[0] : undefined;
-    changeAction(newClient, details);
+    changeAction(newClient, details, name);
   };
 
   const clientListDisplay = () => {

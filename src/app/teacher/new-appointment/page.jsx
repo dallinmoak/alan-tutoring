@@ -2,6 +2,7 @@
 
 import Button from "@/UI/button";
 import Heading from "@/UI/heading";
+import Hyperlink from "@/UI/hyperlink";
 import AppointmentCreateForm from "@/componnents/dashboard/new-appointment/create-form";
 import { translations } from "@/utils/translations";
 import { useState } from "react";
@@ -11,24 +12,55 @@ export default function NewAppointment() {
   const [successMsg, setSuccessMsg] = useState();
 
   const newAppointment = async (newObj) => {
-    // console.log(newObj);
-    fetch("/api/newAppointment", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(newObj),
-    })
-      .then((res) => {
-        res
-          .json()
-          .then((resBody) => {
-            // console.log(resBody);
-            setSuccessMsg(resBody);
-          })
-          .catch((e) => console.log(e));
+    try {
+      const res = await fetch("/api/newAppointment", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newObj),
       })
-      .catch((e) => console.log(e));
+      try {
+        const resBody = await res.json();
+        setSuccessMsg(resBody);
+      } catch (e) {
+        console.log(e);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const sendToGcal = async (newAppointment, details) => {
+    const { student_name, client_name } = details.detailsForCalendar;
+    return new Promise(async (resolve, reject) => {
+      const url = "/api/calendar/new-event";
+      const options = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          end: {
+            dateTime: "2023-09-06T22:00:00.000-06:00",
+            timeZone: "America/Tegucigalpa",
+          },
+          start: {
+            dateTime: "2023-09-06T21:00:00.000-06:00",
+            timeZone: "America/Tegucigalpa",
+          },
+          summary: `tutoring with ${student_name}`,
+          description: `client: ${client_name}\nstart: ${newAppointment.start}\nend: ${newAppointment.end}`,
+        }),
+      };
+      try {
+        const res = await fetch(url, options);
+        resolve(res);
+      } catch (e) {
+        console.log(e);
+        reject(e);
+      }
+    });
   };
 
   return (
@@ -48,8 +80,25 @@ export default function NewAppointment() {
         {showForm ? (
           <AppointmentCreateForm
             hideForm={() => setShowForm(false)}
-            submitCreate={(newObj) => {
-              newAppointment(newObj);
+            submitCreate={async (newObj, details) => {
+              try {
+                const calendarResult = await sendToGcal(newObj, details);
+                try {
+                  const calendarResultBody = await calendarResult.json();
+                  if (calendarResultBody.data.id) {
+                    newAppointment({
+                      ...newObj,
+                      google_id: calendarResultBody.data.id,
+                    });
+                  } else {
+                    console.log('no google_id generated');
+                  }
+                } catch (e) {
+                  console.log(e);
+                }
+              } catch (e) {
+                console.log(e);
+              }
               setShowForm(false);
             }}
           />

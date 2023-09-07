@@ -13,22 +13,26 @@ export default function fieldData(newAppointment, setNewAppointment) {
 
   return {
     client: {
-      changeAction: (val, details) => {
-        patchNewAppointment({
+      changeAction: (val, details, name) => {
+        let patchObj = {
           client_id: val,
           student_id: "",
+          student_name: "",
           type: details ? details.default_appointment_type : "",
           location_type: details ? details.default_location_type : "",
           location: details ? details.default_location : "",
-        });
+        };
+        if (name) patchObj.client_name = name;
+
+        patchNewAppointment(patchObj);
       },
     },
     student: {
       client_id: newAppointment.client_id,
-      changeAction: (val) => {
-        patchNewAppointment({
-          student_id: val,
-        });
+      changeAction: (val, name) => {
+        let patchObj = { student_id: val };
+        if (name) patchObj.student_name = name;
+        patchNewAppointment(patchObj);
       },
       value: newAppointment.student_id,
     },

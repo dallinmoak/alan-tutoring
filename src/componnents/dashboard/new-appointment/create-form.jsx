@@ -37,7 +37,10 @@ export default function AppointmentCreateForm({ hideForm, submitCreate }) {
             student_id: newAppointment.student_id,
             // duration: newAppointment.duration,
             google_id: "TODO",
-          });
+          },{ detailsForCalendar: {
+            student_name: newAppointment.student_name,
+            client_name: newAppointment.client_name,
+          }});
         }
       } catch (e) {
         console.log(e);

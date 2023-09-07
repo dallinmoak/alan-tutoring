@@ -42,7 +42,7 @@ export default function SelectStudent({ data }) {
 
   useEffect(()=>{
     if(students.length == 1){
-      changeAction(students[0].id);
+      changeAction(students[0].id, students[0].value);
     }
   },[students])
 
