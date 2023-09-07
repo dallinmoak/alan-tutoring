@@ -22,6 +22,7 @@ export default function NewAppointment() {
       })
       try {
         const resBody = await res.json();
+        console.log(resBody);
         setSuccessMsg(resBody);
       } catch (e) {
         console.log(e);
