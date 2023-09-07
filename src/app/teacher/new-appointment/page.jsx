@@ -80,26 +80,30 @@ export default function NewAppointment() {
         {showForm ? (
           <AppointmentCreateForm
             hideForm={() => setShowForm(false)}
-            submitCreate={async (newObj, details) => {
-              try {
-                const calendarResult = await sendToGcal(newObj, details);
-                try {
-                  const calendarResultBody = await calendarResult.json();
-                  console.log(calendarResultBody);
-                  if (calendarResultBody.data.id) {
-                    newAppointment({
-                      ...newObj,
-                      google_id: calendarResultBody.data.id,
-                    });
-                  } else {
-                    console.log('no google_id generated');
-                  }
-                } catch (e) {
-                  console.log(e);
-                }
-              } catch (e) {
-                console.log(e);
-              }
+            // submitCreate={async (newObj, details) => {
+            //   try {
+            //     const calendarResult = await sendToGcal(newObj, details);
+            //     try {
+            //       const calendarResultBody = await calendarResult.json();
+            //       console.log(calendarResultBody);
+            //       if (calendarResultBody.data.id) {
+            //         newAppointment({
+            //           ...newObj,
+            //           google_id: calendarResultBody.data.id,
+            //         });
+            //       } else {
+            //         console.log('no google_id generated');
+            //       }
+            //     } catch (e) {
+            //       console.log(e);
+            //     }
+            //   } catch (e) {
+            //     console.log(e);
+            //   }
+            //   setShowForm(false);
+            // }}
+            submitCreate={(newObj)=>{
+              newAppointment(newObj),
               setShowForm(false);
             }}
           />
