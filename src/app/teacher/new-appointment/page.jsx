@@ -22,7 +22,6 @@ export default function NewAppointment() {
       })
       try {
         const resBody = await res.json();
-        console.log(resBody);
         setSuccessMsg(resBody);
       } catch (e) {
         console.log(e);
@@ -86,6 +85,7 @@ export default function NewAppointment() {
                 const calendarResult = await sendToGcal(newObj, details);
                 try {
                   const calendarResultBody = await calendarResult.json();
+                  console.log(calendarResultBody);
                   if (calendarResultBody.data.id) {
                     newAppointment({
                       ...newObj,
