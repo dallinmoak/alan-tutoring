@@ -12,6 +12,7 @@ export async function POST(request) {
   }
   if (requestData) {
     try {
+      console.log('env', process.env.GOOGLE_SERVICE_ACCOUNT);
       const client = new JWT({
         email: process.env.GOOGLE_SERVICE_ACCOUNT,
         key: process.env.GOOGLE_SA_PRIVATE_KEY.replaceAll("\\n", "\n"),
