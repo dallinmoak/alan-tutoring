@@ -5,13 +5,16 @@ import Heading from "@/UI/heading";
 import Hyperlink from "@/UI/hyperlink";
 import AppointmentCreateForm from "@/componnents/dashboard/new-appointment/create-form";
 import { translations } from "@/utils/translations";
+import Link from "next/link";
 import { useState } from "react";
 
 export default function NewAppointment() {
   const [showForm, setShowForm] = useState(false);
   const [successMsg, setSuccessMsg] = useState();
+  const [loadingState, setloadingState] = useState();
 
   const newAppointment = async (newObj) => {
+    setloadingState("database");
     try {
       const res = await fetch("/api/newAppointment", {
         method: "POST",
@@ -19,9 +22,10 @@ export default function NewAppointment() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(newObj),
-      })
+      });
       try {
         const resBody = await res.json();
+        setloadingState("");
         setSuccessMsg(resBody);
       } catch (e) {
         console.log(e);
@@ -31,29 +35,59 @@ export default function NewAppointment() {
     }
   };
 
+  const getZoomMtg = async (teacher_id) => {
+    try {
+      const res = await fetch(`/api/teacher/meeting?teacher_id=${teacher_id}`);
+      console.log(res);
+      const resBody = await res.json();
+      console.log(resBody);
+      return resBody[0].meeting_link;
+    } catch (e) {
+      console.log(e);
+      return e;
+    }
+  };
+
   const sendToGcal = async (newAppointment, details) => {
     const { student_name, client_name } = details.detailsForCalendar;
     return new Promise(async (resolve, reject) => {
       const url = "/api/calendar/new-event";
+      const summaryTopic = newAppointment.topic
+        ? newAppointment.topic
+        : "tutoring";
+      let location;
+      if (newAppointment.type == "online") {
+        location = await getZoomMtg(newAppointment.teacher_id);
+      } else {
+        location = newAppointment.location;
+      }
+      const isoWithOffset = (date) => {
+        const offset = "-06:00";
+        return new Date(date).toISOString().replace("z", offset);
+      };
       const options = {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          end: {
-            dateTime: "2023-09-06T22:00:00.000-06:00",
-            timeZone: "America/Tegucigalpa",
-          },
           start: {
-            dateTime: "2023-09-06T21:00:00.000-06:00",
+            // dateTime: "2023-09-06T21:00:00.000-06:00",
+            dateTime: isoWithOffset(newAppointment.start),
             timeZone: "America/Tegucigalpa",
           },
-          summary: `tutoring with ${student_name}`,
-          description: `client: ${client_name}\nstart: ${newAppointment.start}\nend: ${newAppointment.end}`,
+          end: {
+            // dateTime: "2023-09-06T22:00:00.000-06:00",
+            dateTime: isoWithOffset(newAppointment.end),
+            timeZone: "America/Tegucigalpa",
+          },
+          summary: `${summaryTopic} with ${student_name}`,
+          description: `Client: ${client_name}`,
+          location: location,
         }),
       };
       try {
+        console.log(options);
         const res = await fetch(url, options);
         resolve(res);
       } catch (e) {
@@ -63,76 +97,71 @@ export default function NewAppointment() {
     });
   };
 
+  const create = async (newObj, details) => {
+    setloadingState("calendar");
+    try {
+      const calendarResult = await sendToGcal(newObj, details);
+      try {
+        const calendarResultBody = await calendarResult.json();
+        console.log(calendarResultBody);
+        setloadingState("");
+        if (calendarResultBody.data.id) {
+          newAppointment({
+            ...newObj,
+            google_id: calendarResultBody.data.id,
+          });
+        } else {
+          console.log("no google_id generated");
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+    setShowForm(false);
+  };
+
+  const appForm = (
+    <AppointmentCreateForm
+      hideForm={() => setShowForm(false)}
+      submitCreate={create}
+    />
+  );
+
+  const createButton = (
+    <Button
+      action={() => {
+        setSuccessMsg(null);
+        setShowForm(true);
+      }}
+    >
+      {translations.buttonlabels.createAppointment}
+    </Button>
+  );
+
+  const successContent = successMsg ? (
+    <div>
+      <div>{`✅ ${translations.messages.newAppointmentSuccess}`}</div>
+      <Hyperlink target={`/appointments/${successMsg.id}`} >{translations.buttonlabels.seeNewAppointment}</Hyperlink>
+    </div>
+  ) : null;
+
+  const loadingMsg = () => {
+    const msg = translations.messages.loading.newAppointment[loadingState];
+    return <div>{`${msg}...`}</div>;
+  };
+
   return (
     <>
       <div className="space-y-2 flex flex-col items-center pb-2 w-full">
         <Heading size={"md"}>
           {translations.fieldLabels.teacherNavNewAppointment}
         </Heading>
-        {successMsg ? (
-          <div className="flex flex-col justify-start">
-            new appointment:
-            {Object.keys(successMsg).map((key, index) => {
-              return <div key={index}>{`${key}: ${successMsg[key]}`}</div>;
-            })}
-          </div>
-        ) : null}
-        {showForm ? (
-          <AppointmentCreateForm
-            hideForm={() => setShowForm(false)}
-            // submitCreate={async (newObj, details) => {
-            //   try {
-            //     const calendarResult = await sendToGcal(newObj, details);
-            //     try {
-            //       const calendarResultBody = await calendarResult.json();
-            //       console.log(calendarResultBody);
-            //       if (calendarResultBody.data.id) {
-            //         newAppointment({
-            //           ...newObj,
-            //           google_id: calendarResultBody.data.id,
-            //         });
-            //       } else {
-            //         console.log('no google_id generated');
-            //       }
-            //     } catch (e) {
-            //       console.log(e);
-            //     }
-            //   } catch (e) {
-            //     console.log(e);
-            //   }
-            //   setShowForm(false);
-            // }}
-            submitCreate={(newObj)=>{
-              newAppointment(newObj),
-              setShowForm(false);
-            }}
-          />
-        ) : (
-          <Button
-            action={() => {
-              setSuccessMsg(null);
-              setShowForm(true);
-            }}
-          >
-            {translations.buttonlabels.createAppointment}
-          </Button>
-        )}
+        {loadingState ? loadingMsg() : null}
+        {successMsg ? successContent : null}
+        {showForm ? appForm : createButton}
       </div>
     </>
   );
 }
-
-// newAppointment({
-//   client_id: 2,
-//   teacher_id: "d853b2b2-4e05-4ab5-9000-90d38ad06b75",
-//   start: new Date("September 5 2023 10:00 am").valueOf(),
-//   end: new Date("September 5 2023 11:00 am").valueOf(),
-//   type: "online",
-//   student_id: 1,
-//   paid: false,
-//   location: "",
-//   location_type: "near",
-//   topic: "topic 2",
-//   google_id: "1",
-//   price: 45,
-// });

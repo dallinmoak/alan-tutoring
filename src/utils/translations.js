@@ -28,7 +28,7 @@ export const translations = {
     appointmentPrice: (price) => `Precio: L${price}`,
     appointmentPriceAlt: "Precio (Lempiras)",
     appointmentPriceAlt2: "Precio",
-    teacherNavHome: "Inico",
+    teacherNavHome: "Inicio",
     teacherNavNewAppointment: "Nueva Cita",
     teacherNaveNewClient: "Nuevo Cliente",
   },
@@ -56,8 +56,16 @@ export const translations = {
     createAppointment: "Crear Cita",
     formSubmit: "Enviar",
     cancelForm: "Cancelar",
+    seeNewAppointment: "See new appointment",
   },
   messages: {
+    loading: {
+      newAppointment: {
+        calendar: 'Sending appointment to Google Calendar',
+        database: 'Saving appointment to database',
+      }
+    },
+    newAppointmentSuccess: "Appointment created",
     loginFailure: (error) => `Contraseña o correo incorrecta. Error de servidor: ${error}`, //!
     resetPasswordSuccess: (address)=> `Si existe una cuenta para ${address}, consulte la bandeja de entrada para restablecer contraseña`, //!
     updatePasswordSuccess: "Contreseña actualizada. Ya está conectado", //!

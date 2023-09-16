@@ -19,6 +19,7 @@ export default function AppointmentCreateForm({ hideForm, submitCreate }) {
   const submit = async (e) => {
     e.preventDefault();
     if (validateForm()) {
+      hideForm();
       try {
         const user = await getUser();
         const teacher_id = user.id;
@@ -122,7 +123,7 @@ export default function AppointmentCreateForm({ hideForm, submitCreate }) {
   return (
     <>
       <div className="space-y-2 p-3 border  border-dark-shades- dark:border-light-shades- rounded-md w-[95%] max-w-md mx-1">
-        {formIsValid ? "✅" : null}
+        {/* {formIsValid ? "✅" : null} */}
         <form className="space-y-2" onSubmit={submit}>
           <SelectClient
             data={{
