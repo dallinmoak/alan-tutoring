@@ -8,11 +8,11 @@ export async function POST(request) {
     requestData = await request.json();
   } catch (e) {
     console.log(e);
-    return new Response(JSON.stringify(e), { status: 500 });
+    return new Response(JSON.stringify(e), { status: 501 });
   }
   if (requestData) {
     if (!process.env.GOOGLE_SERVICE_ACCOUNT) {
-      return new Response(JSON.stringify({error: 'no env vars'}), {status: 500});
+      return new Response(JSON.stringify({error: 'no env vars'}), {status: 502});
     }
     try {
       console.log('env', process.env.GOOGLE_SERVICE_ACCOUNT);
@@ -29,7 +29,7 @@ export async function POST(request) {
       return new Response(JSON.stringify({source: "google success", jwt: client, ...res}), { status: 200 });
     } catch (e) {
       console.log(e);
-      return new Response(JSON.stringify({source: "google error", jwt: client, ...e}), { status: 500 });
+      return new Response(JSON.stringify({source: "google error", jwt: client, ...e}), { status: 503 });
     }
   }
 }
