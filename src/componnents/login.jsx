@@ -9,6 +9,7 @@ import FormInput from "@/UI/input";
 import Message from "@/UI/message";
 import signInPassword from "@/utils/signInPassword";
 import { translations } from "@/utils/translations";
+import getUserWithRole from "@/utils/getUserWithRole";
 
 export default function Login() {
   const [password, setPassword] = useState("");
@@ -23,7 +24,11 @@ export default function Login() {
     e.preventDefault();
     signInPassword({email: email, password: password})
       .then(()=>{
-        router.push('/');
+        getUserWithRole()
+          .then(res=>{
+            router.push(`/${res.appRole}`);
+          })
+          .catch(e=>console.log(e));
       })
       .catch(e=>{
         setLoginError(translations.messages.loginFailure(JSON.stringify(e)));
@@ -34,7 +39,7 @@ export default function Login() {
     router.push(`/login/reset?${params}`);
   };
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 w-full px-1">
       <Form submitAction={handleSubmit}>
         <FormInput
           info={{
