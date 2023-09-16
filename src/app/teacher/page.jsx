@@ -65,8 +65,12 @@ export default function TeacherPage() {
       };
       const res = await fetch("/api/calendar/new-event", options);
       console.log("fetch testCreate res", res);
-      const resBody = await res.json();
-      console.log("fetch testCreate resBody", resBody);
+      try {
+        const resBody = await res.text();
+        console.log("fetch testCreate resBody", resBody);
+      } catch (e) {
+        console.log('error testCreate resBody', e);
+      }
     } catch (e) {
       console.log("error testCreate", e);
     }
