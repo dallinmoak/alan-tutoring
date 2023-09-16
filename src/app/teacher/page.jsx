@@ -63,7 +63,7 @@ export default function TeacherPage() {
           location: "876 calle road",
         }),
       };
-      const res = await fetch("/api/calendar/new-event", options);
+      const res = await fetch("/api/calendar/test", options);
       console.log("fetch testCreate res", res);
       try {
         const resBody = await res.text();
