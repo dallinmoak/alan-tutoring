@@ -9,8 +9,8 @@ import Button from "@/UI/button";
 
 export default function TeacherPage() {
   const [teacherName, setTeacherName] = useState({ first: "", last: "" });
-  const [ userId, setUserId ] = useState();
-  const [zoomMtg, setZoomMtg ] = useState();
+  const [userId, setUserId] = useState();
+  const [zoomMtg, setZoomMtg] = useState();
 
   useEffect(() => {
     document.title = translations.teacherDashboardTitle(teacherName.first);
@@ -32,7 +32,6 @@ export default function TeacherPage() {
     getTeacherName();
   }, []);
 
-
   const getZoomMtg = async () => {
     try {
       const res = await fetch(`/api/teacher/meeting?teacher_id=${userId}`);
@@ -40,6 +39,36 @@ export default function TeacherPage() {
       setZoomMtg(resBody[0].meeting_link);
     } catch (e) {
       console.log(e);
+    }
+  };
+
+  const testCreate = async () => {
+    try {
+      const options = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          start: {
+            dateTime: "2023-09-16T06:10:00.000Z",
+            timeZone: "America/Tegucigalpa",
+          },
+          end: {
+            dateTime: "2023-09-16T07:10:00.000Z",
+            timeZone: "America/Tegucigalpa",
+          },
+          summary: "tutoring with Jeffery Doe",
+          description: "Client: John Doe",
+          location: "876 calle road",
+        }),
+      };
+      const res = await fetch("/api/calendar/new-event", options);
+      console.log("fetch testCreate res", res);
+      const resBody = await res.json();
+      console.log("fetch testCreate resBody", resBody);
+    } catch (e) {
+      console.log("error testCreate", e);
     }
   };
 
@@ -59,8 +88,9 @@ export default function TeacherPage() {
           <li>action buttons</li>
         </ul>
       </div>
-      <Button action={getZoomMtg} >get zoom</Button>
+      <Button action={getZoomMtg}>get zoom</Button>
       <div>{zoomMtg}</div>
+      <Button action={testCreate}>create test cal event</Button>
     </div>
   );
 }
