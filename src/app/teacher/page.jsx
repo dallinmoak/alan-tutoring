@@ -51,11 +51,11 @@ export default function TeacherPage() {
         },
         body: JSON.stringify({
           start: {
-            dateTime: "2023-09-16T06:10:00.000Z",
+            dateTime: "2023-09-24T06:10:00.000Z",
             timeZone: "America/Tegucigalpa",
           },
           end: {
-            dateTime: "2023-09-16T07:10:00.000Z",
+            dateTime: "2023-09-24T07:10:00.000Z",
             timeZone: "America/Tegucigalpa",
           },
           summary: "tutoring with Jeffery Doe",

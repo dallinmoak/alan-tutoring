@@ -27,7 +27,7 @@ export async function POST(request) {
       }
     );
   } catch (e) {
-    return new Response(JSON.stringify({ msg: "google error", e }), {
+    return new Response(JSON.stringify({ msg: "google error", jwt:client, e }), {
       status: 501,
     });
   }
