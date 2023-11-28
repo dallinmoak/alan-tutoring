@@ -100,7 +100,7 @@ export default function NewAppointment() {
   const create = async (newObj, details) => {
     setloadingState("calendar");
     try {
-      const calendarResult = await sendToGcal(newObj, details);
+     // const calendarResult = await sendToGcal(newObj, details);
       try {
         const calendarResultBody = await calendarResult.json();
         console.log(calendarResultBody);
